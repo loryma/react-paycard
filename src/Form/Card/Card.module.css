@@ -1,0 +1,49 @@
+.Card {
+  border: 1px solid black;
+  min-width: 200px;
+  width: 70%;
+  position: relative;
+  transform: translate(19%, 50%);
+  background-color: black;
+  padding-top: 46%;
+  border-radius: 1em;
+  color: white;
+}
+
+.Forward {
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  left: 0;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  justify-content: space-between;
+  padding: 1.2em 1em;
+}
+
+.Backward {
+  position: absolute;
+}
+
+.CardNumber {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  height: 2.5em;
+  border-radius: 0.2em;
+  padding-left: 0.5em;
+}
+
+.BottomRow {
+  display: flex;
+  justify-content: space-between;
+}
+.TopRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Rectangle {
+  width: 30px;
+  height: 30px;
+  background-color: white;
+}

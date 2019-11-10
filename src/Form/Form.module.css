@@ -1,0 +1,73 @@
+*,
+*:before,
+*::after {
+  box-sizing: border-box;
+}
+
+.Form {
+  background-color: white;
+  border-radius: 1em;
+  padding: 20% 4% 4% 4%;
+  width: 100%;
+}
+
+.FormWrapper {
+  box-sizing: border-box;
+}
+
+.Row {
+  width: 100%;
+  margin-top: 2em;
+}
+
+.RowExpieryCvc {
+  display: flex;
+  margin-top: 2em;
+}
+
+.RowExpiery {
+  width: 65%;
+  margin-right: auto;
+}
+
+.RowExpieryFields {
+  display: flex;
+}
+
+.RowCvc {
+  width: 30%;
+}
+
+.Input {
+  -webkit-appearance: none;
+  border-radius: 0.2em;
+  font-size: 0.8em;
+  padding: 0 0 0 0.5em;
+  height: 2.5em;
+  display: block;
+  width: 100%;
+  border: 1px grey solid;
+}
+.Label {
+  display: inline-block;
+  font-size: 0.9em;
+  margin-bottom: 0.3em;
+}
+
+.ExpieryMonth {
+  width: 45%;
+  margin-right: auto;
+}
+
+.ExpieryYear {
+  width: 45%;
+}
+
+.Submit {
+  margin-top: 2em;
+  width: 100%;
+  height: 2.5em;
+  line-height: 2.5em;
+  color: white;
+  background-color: blue;
+}
