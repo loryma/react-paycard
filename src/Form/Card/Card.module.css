@@ -1,9 +1,8 @@
 .Card {
-  min-width: 200px;
-  width: 70%;
+  width: 75%;
   position: relative;
   transform: translate(19%, 50%);
-  padding-top: 46%;
+  padding-top: 50%;
   border-radius: 1em;
   color: white;
   perspective: 1000px;
@@ -88,6 +87,10 @@
   padding-left: 0.2em;
   height: 100%;
   flex-grow: 1;
+}
+
+.CardHolderName {
+  text-transform: uppercase;
 }
 
 .Expiration {

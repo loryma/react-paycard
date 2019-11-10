@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./Card.module.css";
 const Card = ({
   cardNumber,
-  cardHolder = "AD SOYAD",
+  cardHolder,
   expirationMonth,
   expirationYear,
   cvc,
@@ -24,17 +24,21 @@ const Card = ({
           <div className={classes.BottomRow}>
             <div className={classes.CardHolder}>
               <label className={classes.Label}>Card Holder</label>
-              <div>{cardHolder}</div>
+              <div className={classes.CardHolderName}>
+                {cardHolder || "AD SOYAD"}
+              </div>
             </div>
 
             <div className={classes.Expiration}>
               <label className={classes.Label}>Expires</label>
               <div className={classes.ExpirationWrapper}>
                 <span className={classes.ExpirationMonth}>
-                  {expirationMonth}
+                  {expirationMonth || "MM"}
                 </span>
                 /
-                <span className={classes.ExpirationYear}>{expirationYear}</span>
+                <span className={classes.ExpirationYear}>
+                  {expirationYear || "YY"}
+                </span>
               </div>
             </div>
           </div>

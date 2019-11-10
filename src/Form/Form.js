@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import FormContext from "./FormContext";
 import Card from "./Card/Card";
+import checkType from "./utilities/checkCardType";
+import validate from "./utilities/validate";
 import classes from "./Form.module.css";
+
+const visa = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
+const masterCard = /^(?:5[1-5][0-9]{14})$/;
+const americanExpress = /^(?:3[47][0-9]{13})$/;
+const discovery = /^(?:6(?:011|5[0-9][0-9])[0-9]{12})$/;
+const dinnersClub = /^(?:3(?:0[0-5]|[68][0-9])[0-9]{11})$/;
+const jcb = /^(?:(?:2131|1800|35\d{3})\d{11})$/;
 
 const Form = ({
   style = { fontFamily: "Verdana", margin: "0 auto", maxWidth: "460px" }
@@ -15,11 +24,20 @@ const Form = ({
       },
       validation: {
         requered: true,
-        regX: /^[0-9]{16}$/,
-        minWidth: 16,
+        regex: {
+          visa,
+          masterCard,
+          americanExpress,
+          discovery,
+          dinnersClub,
+          jcb
+        },
+        minWidth: 13,
         maxWidth: 16
       },
-      value: ""
+      value: "",
+      errors: false,
+      valid: false
     },
     cardHolder: {
       config: {
@@ -30,7 +48,9 @@ const Form = ({
       validation: {
         requered: true
       },
-      value: ""
+      value: "",
+      errors: false,
+      valid: false
     },
     expirationMonth: {
       config: {
@@ -39,7 +59,9 @@ const Form = ({
       validation: {
         requered: true
       },
-      value: ""
+      value: "",
+      errors: false,
+      valid: false
     },
     expirationYear: {
       config: {
@@ -49,7 +71,9 @@ const Form = ({
       validation: {
         requered: true
       },
-      value: ""
+      value: "",
+      errors: false,
+      valid: false
     },
     cvc: {
       config: {
@@ -57,21 +81,37 @@ const Form = ({
         type: "text"
       },
       validation: {
-        requered: true
+        requered: true,
+        regex: /^[0-9]{3,4}$/
       },
-      value: ""
+      value: "",
+      errors: false,
+      valid: false
     }
   });
   const [isFlipped, setIsFlipped] = useState(false);
+  const [cardType, setCardType] = useState("");
 
   const expieryMonthClasses = [classes.Input, classes.ExpieryMonth].join(" ");
   const expieryYearClasses = [classes.Input, classes.ExpieryYear].join(" ");
   const cvcClasses = [classes.Input, classes.CvcClasses].join(" ");
 
   const onFieldChange = (name, e) => {
+    const value = e.target.value;
+    const errors = validate(value, name, fields[name].validation);
+
+    if (name === "cardNumber") {
+      setCardType(checkType(value));
+    }
+
     setFields({
       ...fields,
-      [name]: { ...fields[name], value: e.target.value }
+      [name]: {
+        ...fields[name],
+        value,
+        errors,
+        valid: !errors
+      }
     });
   };
 
@@ -82,6 +122,7 @@ const Form = ({
   const onCvcBlur = () => {
     setIsFlipped(false);
   };
+
   return (
     <FormContext.Provider value={{ data: fields }}>
       <div className={classes.FormWrapper} style={style}>
@@ -92,6 +133,7 @@ const Form = ({
           expirationYear={fields.expirationYear.value}
           cvc={fields.cvc.value}
           isFlipped={isFlipped}
+          cardType={cardType}
         />
         <form className={classes.Form} noValidate>
           <div className={classes.Row}>
