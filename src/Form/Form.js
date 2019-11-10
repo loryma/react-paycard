@@ -4,7 +4,7 @@ import Card from "./Card/Card";
 import classes from "./Form.module.css";
 
 const Form = ({
-  style = { fontFamily: "Open Sans", margin: "0 auto", maxWidth: "460px" }
+  style = { fontFamily: "Verdana", margin: "0 auto", maxWidth: "460px" }
 }) => {
   const [fields, setFields] = useState({
     cardNumber: {
@@ -62,6 +62,7 @@ const Form = ({
       value: ""
     }
   });
+  const [isFlipped, setIsFlipped] = useState(false);
 
   const expieryMonthClasses = [classes.Input, classes.ExpieryMonth].join(" ");
   const expieryYearClasses = [classes.Input, classes.ExpieryYear].join(" ");
@@ -73,6 +74,14 @@ const Form = ({
       [name]: { ...fields[name], value: e.target.value }
     });
   };
+
+  const onCvcFocus = () => {
+    setIsFlipped(true);
+  };
+
+  const onCvcBlur = () => {
+    setIsFlipped(false);
+  };
   return (
     <FormContext.Provider value={{ data: fields }}>
       <div className={classes.FormWrapper} style={style}>
@@ -82,6 +91,7 @@ const Form = ({
           expirationMonth={fields.expirationMonth.value}
           expirationYear={fields.expirationYear.value}
           cvc={fields.cvc.value}
+          isFlipped={isFlipped}
         />
         <form className={classes.Form} noValidate>
           <div className={classes.Row}>
@@ -182,10 +192,12 @@ const Form = ({
                 type="text"
                 {...fields.cvc.config}
                 onChange={onFieldChange.bind(this, fields.cvc.config.name)}
+                onFocus={onCvcFocus}
+                onBlur={onCvcBlur}
               />
             </div>
           </div>
-          <button type="submit" className={classes.Sumbit}>
+          <button type="submit" className={classes.Submit}>
             Submit
           </button>
         </form>

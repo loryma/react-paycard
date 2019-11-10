@@ -1,13 +1,29 @@
 .Card {
-  border: 1px solid black;
   min-width: 200px;
   width: 70%;
   position: relative;
   transform: translate(19%, 50%);
-  background-color: black;
   padding-top: 46%;
   border-radius: 1em;
   color: white;
+  perspective: 1000px;
+}
+
+.Wrapper {
+  border: 1px solid black;
+  background-color: black;
+  border-radius: 1em;
+  top: 0;
+  left: 0;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+}
+
+.Wrapper.IsFlipped {
+  transform: rotateY(180deg);
 }
 
 .Forward {
@@ -19,23 +35,36 @@
   position: absolute;
   width: 100%;
   justify-content: space-between;
-  padding: 1.2em 1em;
+  padding: 1em;
 }
 
 .Backward {
   position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  padding: 1em;
+  transform: rotateY(180deg);
+  border: 1px solid black;
+  background-color: black;
+  border-radius: 1em;
 }
 
 .CardNumber {
   border: 1px solid rgba(255, 255, 255, 0.5);
-  height: 2.5em;
-  border-radius: 0.2em;
-  padding-left: 0.5em;
+  height: 2.5rem;
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
 }
 
 .BottomRow {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 }
 .TopRow {
   display: flex;
@@ -43,7 +72,46 @@
 }
 
 .Rectangle {
-  width: 30px;
+  width: 40px;
   height: 30px;
+  border-radius: 0.2em;
   background-color: white;
+}
+
+.Label {
+  font-size: 0.7em;
+  margin-bottom: 0.3em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.CardHolder {
+  padding-left: 0.2em;
+  height: 100%;
+  flex-grow: 1;
+}
+
+.Expiration {
+  padding-right: 0.2em;
+}
+
+.ExpirationWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.ExpirationMonth {
+  display: inline-block;
+}
+
+.Cvc {
+  color: black;
+  width: 100%;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  background-color: white;
+  border-radius: 0.2em;
+  text-align: right;
+  padding-right: 0.5rem;
+  font-size: 0.8em;
 }

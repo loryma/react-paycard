@@ -6,8 +6,8 @@
 
 .Form {
   background-color: white;
-  border-radius: 1em;
-  padding: 20% 4% 4% 4%;
+  border-radius: 0.5em;
+  padding: 25% 5% 5% 5%;
   width: 100%;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .RowExpiery {
-  width: 65%;
+  width: 55%;
   margin-right: auto;
 }
 
@@ -35,23 +35,23 @@
 }
 
 .RowCvc {
-  width: 30%;
+  width: 25%;
 }
 
 .Input {
   -webkit-appearance: none;
-  border-radius: 0.2em;
-  font-size: 0.8em;
-  padding: 0 0 0 0.5em;
-  height: 2.5em;
+  border-radius: 0.2rem;
+  font-size: 0.8rem;
+  padding: 0 0 0 0.5rem;
+  height: 2.5rem;
   display: block;
   width: 100%;
   border: 1px grey solid;
 }
 .Label {
   display: inline-block;
-  font-size: 0.9em;
-  margin-bottom: 0.3em;
+  font-size: 0.8em;
+  margin-bottom: 0.5em;
 }
 
 .ExpieryMonth {
@@ -64,6 +64,10 @@
 }
 
 .Submit {
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0.2em;
+  border: 1px solid blue;
   margin-top: 2em;
   width: 100%;
   height: 2.5em;

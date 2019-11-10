@@ -5,32 +5,43 @@ const Card = ({
   cardHolder = "AD SOYAD",
   expirationMonth,
   expirationYear,
-  cvc
+  cvc,
+  isFlipped
 }) => {
+  const WrapperClasses = [
+    classes.Wrapper,
+    isFlipped ? classes.IsFlipped : ""
+  ].join(" ");
   return (
     <div className={classes.Card}>
-      <div className={classes.Forward}>
-        <div className={classes.TopRow}>
-          <div className={classes.Rectangle}></div>
-          <div className={classes.Logo}></div>
-        </div>
-        <div className={classes.CardNumber}>{cardNumber}</div>
-        <div className={classes.BottomRow}>
-          <div>
-            <label>Card Holder</label>
-            <div>{cardHolder}</div>
+      <div className={WrapperClasses}>
+        <div className={classes.Forward}>
+          <div className={classes.TopRow}>
+            <div className={classes.Rectangle}></div>
+            <div className={classes.Logo}></div>
           </div>
+          <div className={classes.CardNumber}>{cardNumber}</div>
+          <div className={classes.BottomRow}>
+            <div className={classes.CardHolder}>
+              <label className={classes.Label}>Card Holder</label>
+              <div>{cardHolder}</div>
+            </div>
 
-          <div className={classes.Expiraton}>
-            <label>Expiraton</label>
-            <div>
-              <span>{expirationMonth}</span>/<span>{expirationYear}</span>
+            <div className={classes.Expiration}>
+              <label className={classes.Label}>Expires</label>
+              <div className={classes.ExpirationWrapper}>
+                <span className={classes.ExpirationMonth}>
+                  {expirationMonth}
+                </span>
+                /
+                <span className={classes.ExpirationYear}>{expirationYear}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className={classes.Backward}>
-        <div>{cvc}</div>
+        <div className={classes.Backward}>
+          <div className={classes.Cvc}>{cvc}</div>
+        </div>
       </div>
     </div>
   );
