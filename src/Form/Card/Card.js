@@ -1,13 +1,30 @@
 import React from "react";
 import classes from "./Card.module.css";
+import visa from "./visa.png";
+import mastercard from "./mastercard.png";
+import discover from "./discover.png";
+import americanExpress from "./americanexpress.png";
+import chip from "./chip.png";
+
 const Card = ({
   cardNumber,
   cardHolder,
   expirationMonth,
   expirationYear,
   cvc,
-  isFlipped
+  isFlipped,
+  cardType
 }) => {
+  let cardLogo = visa;
+  if (cardType) {
+    if (cardType === "masterCard") {
+      cardLogo = mastercard;
+    } else if (cardType === "discover") {
+      cardLogo = discover;
+    } else if (cardType === "americanExpress") {
+      cardLogo = americanExpress;
+    }
+  }
   const WrapperClasses = [
     classes.Wrapper,
     isFlipped ? classes.IsFlipped : ""
@@ -17,8 +34,8 @@ const Card = ({
       <div className={WrapperClasses}>
         <div className={classes.Forward}>
           <div className={classes.TopRow}>
-            <div className={classes.Rectangle}></div>
-            <div className={classes.Logo}></div>
+            <img src={chip} alt="card chip" className={classes.Chip} />
+            <img src={cardLogo} alt="card logo" className={classes.Logo} />
           </div>
           <div className={classes.CardNumber}>{cardNumber}</div>
           <div className={classes.BottomRow}>

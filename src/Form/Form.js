@@ -9,8 +9,6 @@ const visa = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
 const masterCard = /^(?:5[1-5][0-9]{14})$/;
 const americanExpress = /^(?:3[47][0-9]{13})$/;
 const discovery = /^(?:6(?:011|5[0-9][0-9])[0-9]{12})$/;
-const dinnersClub = /^(?:3(?:0[0-5]|[68][0-9])[0-9]{11})$/;
-const jcb = /^(?:(?:2131|1800|35\d{3})\d{11})$/;
 
 const Form = ({
   style = { fontFamily: "Verdana", margin: "0 auto", maxWidth: "460px" }
@@ -28,9 +26,7 @@ const Form = ({
           visa,
           masterCard,
           americanExpress,
-          discovery,
-          dinnersClub,
-          jcb
+          discovery
         },
         minWidth: 13,
         maxWidth: 16
