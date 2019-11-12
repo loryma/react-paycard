@@ -8,6 +8,42 @@
   perspective: 1000px;
 }
 
+.Focus {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  position: absolute;
+  transition: top 1s, width 1s, left 1s;
+}
+
+.Focus-CardNumber {
+  z-index: 2;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 2.5rem;
+  width: 100%;
+  transition: top 1s, width 1.5s;
+}
+
+.Focus-CardHolder {
+  z-index: 2;
+  top: calc(100% + 0.2em);
+  transform: translateY(-100%);
+  left: 0;
+  height: 2.9rem;
+  width: 75%;
+}
+
+.Focus-Expiration {
+  z-index: 2;
+  top: calc(100% + 0.2em);
+  transform: translate(-100%, -100%);
+  left: calc(100% + 0.2em);
+  height: 2.9rem;
+  width: 25%;
+  transition: top 1s, width 1.5s;
+}
+
 .Wrapper {
   border: 1px solid black;
   background-color: black;
@@ -19,6 +55,7 @@
   width: 100%;
   transform-style: preserve-3d;
   transition: transform 1s;
+  padding: 1em;
 }
 
 .Wrapper.IsFlipped {
@@ -28,13 +65,10 @@
 .Forward {
   display: flex;
   flex-direction: column;
-  top: 0;
-  left: 0;
+  position: relative;
   height: 100%;
-  position: absolute;
   width: 100%;
   justify-content: space-between;
-  padding: 1em;
 }
 
 .Backward {
@@ -54,10 +88,10 @@
 }
 
 .CardNumber {
-  border: 1px solid rgba(255, 255, 255, 0.5);
   height: 2.5rem;
   border-radius: 0.2rem;
   padding-left: 0.5rem;
+  line-height: 2.5rem;
 }
 
 .BottomRow {
@@ -82,9 +116,9 @@
 }
 
 .CardHolder {
-  padding-left: 0.2em;
+  padding-left: 0.2rem;
   height: 100%;
-  flex-grow: 1;
+  width: 75%;
 }
 
 .CardHolderName {
@@ -93,6 +127,7 @@
 
 .Expiration {
   padding-right: 0.2em;
+  width: 20%;
 }
 
 .ExpirationWrapper {

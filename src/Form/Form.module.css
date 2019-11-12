@@ -41,7 +41,6 @@
 .Input {
   -webkit-appearance: none;
   border-radius: 5px;
-  font-size: 0.8rem;
   padding: 0 0 0 0.5rem;
   height: 2.5rem;
   display: block;
@@ -62,6 +61,15 @@
 
 .ExpieryYear {
   width: 45%;
+}
+
+.ExpieryYear::placeholder {
+  color: black;
+  font-size: 18px;
+}
+
+.ExpieryYear:focus::placeholder {
+  color: transparent;
 }
 
 .Submit {

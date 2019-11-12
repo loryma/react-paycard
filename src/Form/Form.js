@@ -32,6 +32,7 @@ const Form = ({
         maxWidth: 16
       },
       value: "",
+      maskedValue: "",
       errors: false,
       valid: false
     },
@@ -62,10 +63,13 @@ const Form = ({
     expirationYear: {
       config: {
         name: "expirationYear",
-        type: "text"
+        type: "number",
+        placeholder: "Year"
       },
       validation: {
-        requered: true
+        requered: true,
+        min: `${new Date().getFullYear()}`.substring(-2),
+        max: `${new Date().getFullYear() + 10}`.substring(-2)
       },
       value: "",
       errors: false,
@@ -87,28 +91,63 @@ const Form = ({
   });
   const [isFlipped, setIsFlipped] = useState(false);
   const [cardType, setCardType] = useState("");
+  const [focusedField, setFocusedField] = useState("");
 
   const expieryMonthClasses = [classes.Input, classes.ExpieryMonth].join(" ");
   const expieryYearClasses = [classes.Input, classes.ExpieryYear].join(" ");
   const cvcClasses = [classes.Input, classes.CvcClasses].join(" ");
 
   const onFieldChange = (name, e) => {
-    const value = e.target.value;
-    const errors = validate(value, name, fields[name].validation);
+    let value = e.target.value;
+    let errors;
+    let maskedValue;
 
-    if (name === "cardNumber") {
-      setCardType(checkType(value));
+    if (name === "expirationYear") {
+      value = value.substring(0, 2);
     }
 
-    setFields({
-      ...fields,
-      [name]: {
-        ...fields[name],
-        value,
-        errors,
-        valid: !errors
+    if (name === "cardNumber") {
+      let unmaskedValue = value.replace(/\D+/g, "").substring(0, 16);
+      const oldMaskedValue = fields.cardNumber.maskedValue;
+      //check if used is editing the card number
+      if (oldMaskedValue.slice(0, -1) === value) {
+        maskedValue = value;
+      } else {
+        maskedValue = unmaskedValue
+          .replace(/(\d{4})/g, "$1 ")
+          .replace(/(\d{4}) (\d{4}) (\d{4}) (\d{4}) /, "$1 $2 $3 $4");
       }
-    });
+
+      console.log(maskedValue);
+      console.log(unmaskedValue);
+
+      setCardType(checkType(unmaskedValue));
+
+      errors = validate(unmaskedValue, name, fields[name].validation);
+
+      setFields({
+        ...fields,
+        cardNumber: {
+          ...fields.cardNumber,
+          value: unmaskedValue,
+          maskedValue,
+          errors,
+          valid: !errors
+        }
+      });
+    } else {
+      errors = validate(value, name, fields[name].validation);
+
+      setFields({
+        ...fields,
+        [name]: {
+          ...fields[name],
+          value,
+          errors,
+          valid: !errors
+        }
+      });
+    }
   };
 
   const onCvcFocus = () => {
@@ -119,17 +158,22 @@ const Form = ({
     setIsFlipped(false);
   };
 
+  const onFocus = name => {
+    setFocusedField(name);
+  };
+
   return (
     <FormContext.Provider value={{ data: fields }}>
       <div className={classes.FormWrapper} style={style}>
         <Card
-          cardNumber={fields.cardNumber.value}
+          cardNumber={fields.cardNumber.maskedValue}
           cardHolder={fields.cardHolder.value}
           expirationMonth={fields.expirationMonth.value}
           expirationYear={fields.expirationYear.value}
           cvc={fields.cvc.value}
           isFlipped={isFlipped}
           cardType={cardType}
+          focusedField={focusedField}
         />
         <form className={classes.Form} noValidate>
           <div className={classes.Row}>
@@ -141,8 +185,9 @@ const Form = ({
               id="cardNumber"
               type="text"
               {...fields.cardNumber.config}
-              value={fields.cardNumber.value}
+              value={fields.cardNumber.maskedValue}
               onChange={onFieldChange.bind(this, fields.cardNumber.config.name)}
+              onFocus={onFocus.bind(this, "CardNumber")}
             />
           </div>
           <div className={classes.Row}>
@@ -156,6 +201,7 @@ const Form = ({
               {...fields.cardHolder.config}
               value={fields.cardHolder.value}
               onChange={onFieldChange.bind(this, fields.cardHolder.config.name)}
+              onFocus={onFocus.bind(this, "CardHolder")}
             />
           </div>
           <div className={classes.RowExpieryCvc}>
@@ -170,6 +216,7 @@ const Form = ({
                     this,
                     fields.expirationMonth.config.name
                   )}
+                  onFocus={onFocus.bind(this, "Expiration")}
                 >
                   <option className={classes.Option} value="">
                     Month
@@ -213,13 +260,13 @@ const Form = ({
                 </select>
                 <input
                   className={expieryYearClasses}
-                  type="date"
                   {...fields.expirationYear.config}
                   value={fields.expirationYear.value}
                   onChange={onFieldChange.bind(
                     this,
                     fields.expirationYear.config.name
                   )}
+                  onFocus={onFocus.bind(this, "Expiration")}
                 />
               </div>
             </div>
