@@ -11,7 +11,12 @@ const americanExpress = /^(?:3[47][0-9]{13})$/;
 const discovery = /^(?:6(?:011|5[0-9][0-9])[0-9]{12})$/;
 
 const Form = ({
-  style = { fontFamily: "Verdana", margin: "0 auto", maxWidth: "460px" },
+  style = {
+    fontFamily: "Verdana",
+    margin: "0 auto",
+    maxWidth: "570px",
+    width: "90%"
+  },
   onSubmit
 }) => {
   const [fields, setFields] = useState({

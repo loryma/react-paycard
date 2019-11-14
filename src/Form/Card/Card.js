@@ -3,6 +3,7 @@ import classes from "./Card.module.css";
 import chip from "./chip.png";
 import Logo from "../Logo/Logo";
 import CardNumbers from "../CardNumbers/CardNumbers";
+import CardHolder from "../CardHolder/CardHolder";
 
 const Card = ({
   cardNumber,
@@ -39,7 +40,7 @@ const Card = ({
             <div className={classes.CardHolder}>
               <label className={classes.Label}>Card Holder</label>
               <div className={classes.CardHolderName}>
-                {cardHolder || "FULL NAME"}
+                <CardHolder name={cardHolder} />
               </div>
             </div>
 

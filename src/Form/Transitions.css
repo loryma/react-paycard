@@ -17,3 +17,23 @@
   transform: translateY(-100%);
   opacity: 0;
 }
+
+.fly-in-enter {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.fly-in-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.fly-in-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.fly-in-exit-active {
+  transform: translateX(-100%);
+  opacity: 0;
+}
