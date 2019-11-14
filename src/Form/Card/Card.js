@@ -1,31 +1,19 @@
 import React from "react";
 import classes from "./Card.module.css";
-import visa from "./visa.png";
-import mastercard from "./mastercard.png";
-import discover from "./discover.png";
-import americanExpress from "./americanexpress.png";
 import chip from "./chip.png";
+import Logo from "../Logo/Logo";
+import CardNumbers from "../CardNumbers/CardNumbers";
 
 const Card = ({
   cardNumber,
   cardHolder,
   expirationMonth,
   expirationYear,
-  cvc,
+  cardCvc,
   isFlipped,
   cardType,
   focusedField
 }) => {
-  let cardLogo = visa;
-  if (cardType) {
-    if (cardType === "masterCard") {
-      cardLogo = mastercard;
-    } else if (cardType === "discover") {
-      cardLogo = discover;
-    } else if (cardType === "americanExpress") {
-      cardLogo = americanExpress;
-    }
-  }
   const WrapperClasses = [
     classes.Wrapper,
     isFlipped ? classes.IsFlipped : ""
@@ -33,7 +21,7 @@ const Card = ({
   const FocusClasses = [classes.Focus, classes[`Focus-${focusedField}`]].join(
     " "
   );
-  console.log(focusedField);
+
   return (
     <div className={classes.Card}>
       <div className={WrapperClasses}>
@@ -41,9 +29,12 @@ const Card = ({
           <div className={FocusClasses}></div>
           <div className={classes.TopRow}>
             <img src={chip} alt="card chip" className={classes.Chip} />
-            <img src={cardLogo} alt="card logo" className={classes.Logo} />
+
+            <Logo cardType={cardType} />
           </div>
-          <div className={classes.CardNumber}>{cardNumber}</div>
+          <div className={classes.CardNumber}>
+            <CardNumbers numbers={cardNumber} />
+          </div>
           <div className={classes.BottomRow}>
             <div className={classes.CardHolder}>
               <label className={classes.Label}>Card Holder</label>
@@ -67,7 +58,7 @@ const Card = ({
           </div>
         </div>
         <div className={classes.Backward}>
-          <div className={classes.Cvc}>{cvc}</div>
+          <div className={classes.Cvc}>{cardCvc}</div>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormContext from "./FormContext";
 import Card from "./Card/Card";
 import checkType from "./utilities/checkCardType";
@@ -11,7 +11,8 @@ const americanExpress = /^(?:3[47][0-9]{13})$/;
 const discovery = /^(?:6(?:011|5[0-9][0-9])[0-9]{12})$/;
 
 const Form = ({
-  style = { fontFamily: "Verdana", margin: "0 auto", maxWidth: "460px" }
+  style = { fontFamily: "Verdana", margin: "0 auto", maxWidth: "460px" },
+  onSubmit
 }) => {
   const [fields, setFields] = useState({
     cardNumber: {
@@ -75,9 +76,9 @@ const Form = ({
       errors: false,
       valid: false
     },
-    cvc: {
+    cardCvc: {
       config: {
-        name: "cvc",
+        name: "cardCvc",
         type: "text"
       },
       validation: {
@@ -92,10 +93,20 @@ const Form = ({
   const [isFlipped, setIsFlipped] = useState(false);
   const [cardType, setCardType] = useState("");
   const [focusedField, setFocusedField] = useState("");
+  const [formIsValid, setFormIsValid] = useState();
 
   const expieryMonthClasses = [classes.Input, classes.ExpieryMonth].join(" ");
   const expieryYearClasses = [classes.Input, classes.ExpieryYear].join(" ");
   const cvcClasses = [classes.Input, classes.CvcClasses].join(" ");
+
+  useEffect(() => {
+    const formValidity = Object.values(fields).reduce(
+      (acc, el) => acc && el.validation.valid,
+      true
+    );
+
+    setFormIsValid(formValidity);
+  }, [fields]);
 
   const onFieldChange = (name, e) => {
     let value = e.target.value;
@@ -117,9 +128,6 @@ const Form = ({
           .replace(/(\d{4})/g, "$1 ")
           .replace(/(\d{4}) (\d{4}) (\d{4}) (\d{4}) /, "$1 $2 $3 $4");
       }
-
-      console.log(maskedValue);
-      console.log(unmaskedValue);
 
       setCardType(checkType(unmaskedValue));
 
@@ -150,16 +158,29 @@ const Form = ({
     }
   };
 
-  const onCvcFocus = () => {
-    setIsFlipped(true);
-  };
-
-  const onCvcBlur = () => {
-    setIsFlipped(false);
-  };
-
   const onFocus = name => {
     setFocusedField(name);
+    if (name === "cardCvc") {
+      setIsFlipped(true);
+    }
+  };
+
+  const onBlur = name => {
+    if (name === "cardCvc") {
+      setIsFlipped(false);
+    }
+  };
+
+  const onFormSubmit = e => {
+    e.preventDefault();
+
+    if (formIsValid) {
+      let formData = {};
+      for (let key in fields) {
+        formData[key] = fields[key].value;
+      }
+      onSubmit(formData);
+    }
   };
 
   return (
@@ -170,12 +191,12 @@ const Form = ({
           cardHolder={fields.cardHolder.value}
           expirationMonth={fields.expirationMonth.value}
           expirationYear={fields.expirationYear.value}
-          cvc={fields.cvc.value}
+          cardCvc={fields.cardCvc.value}
           isFlipped={isFlipped}
           cardType={cardType}
           focusedField={focusedField}
         />
-        <form className={classes.Form} noValidate>
+        <form onSubmit={onFormSubmit} className={classes.Form} noValidate>
           <div className={classes.Row}>
             <label className={classes.Label} htmlFor="cardNumber">
               Card Number
@@ -275,10 +296,10 @@ const Form = ({
               <input
                 className={cvcClasses}
                 type="text"
-                {...fields.cvc.config}
-                onChange={onFieldChange.bind(this, fields.cvc.config.name)}
-                onFocus={onCvcFocus}
-                onBlur={onCvcBlur}
+                {...fields.cardCvc.config}
+                onChange={onFieldChange.bind(this, fields.cardCvc.config.name)}
+                onFocus={onFocus.bind(this, "cardCvc")}
+                onBlur={onBlur.bind(this, "cardCvc")}
               />
             </div>
           </div>

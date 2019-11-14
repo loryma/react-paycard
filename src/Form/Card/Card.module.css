@@ -1,7 +1,8 @@
 .Card {
   width: 75%;
   position: relative;
-  transform: translate(19%, 50%);
+  transform: translate(-50%, 50%);
+  margin-left: 50%;
   padding-top: 50%;
   border-radius: 1em;
   color: white;
@@ -91,7 +92,8 @@
   height: 2.5rem;
   border-radius: 0.2rem;
   padding-left: 0.5rem;
-  line-height: 2.5rem;
+  display: flex;
+  align-items: center;
 }
 
 .BottomRow {
@@ -102,6 +104,7 @@
 .TopRow {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 }
 
 .Chip {
@@ -150,9 +153,4 @@
   text-align: right;
   padding-right: 0.5rem;
   font-size: 0.8em;
-}
-
-.Logo {
-  width: 18%;
-  height: auto;
 }

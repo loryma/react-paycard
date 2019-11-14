@@ -5,7 +5,7 @@ import "./App.css";
 function App() {
   return (
     <div className="App">
-      <Form />
+      <Form onSubmit={data => console.log(data)} />
     </div>
   );
 }

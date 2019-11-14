@@ -1,0 +1,19 @@
+.move-up-enter {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.move-up-enter-active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.move-up-exit {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.move-up-exit-active {
+  transform: translateY(-100%);
+  opacity: 0;
+}

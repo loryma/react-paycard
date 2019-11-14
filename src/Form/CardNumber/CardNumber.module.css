@@ -1,0 +1,9 @@
+.CardNumber {
+  display: inline-block;
+  height: 1em;
+  line-height: 1em;
+  font-size: 18px;
+  width: 4%;
+  position: relative;
+  transition: 0.1s linear;
+}
