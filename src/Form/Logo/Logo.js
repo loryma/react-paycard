@@ -22,18 +22,16 @@ const Logo = ({ cardType }) => {
     console.log(cardType, cardLogo);
   }
   return (
-    <div className={classes.Wrapper}>
-      <SwitchTransition>
-        <CSSTransition key={cardType} classNames="move-up" timeout={100}>
-          <img
-            src={cardLogo}
-            key={cardType}
-            alt="card logo"
-            className={classes.Logo}
-          />
-        </CSSTransition>
-      </SwitchTransition>
-    </div>
+    <SwitchTransition>
+      <CSSTransition key={cardType} classNames="move-up" timeout={100}>
+        <img
+          src={cardLogo}
+          key={cardType}
+          alt="card logo"
+          className={classes.Logo}
+        />
+      </CSSTransition>
+    </SwitchTransition>
   );
 };
 

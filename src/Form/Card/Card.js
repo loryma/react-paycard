@@ -28,33 +28,31 @@ const Card = ({
       <div className={WrapperClasses}>
         <div className={classes.Forward}>
           <div className={FocusClasses}></div>
-          <div className={classes.TopRow}>
-            <img src={chip} alt="card chip" className={classes.Chip} />
+          <img src={chip} alt="card chip" className={classes.Chip} />
 
+          <div className={classes.Logo}>
             <Logo cardType={cardType} />
           </div>
           <div className={classes.CardNumber}>
             <CardNumbers numbers={cardNumber} />
           </div>
-          <div className={classes.BottomRow}>
-            <div className={classes.CardHolder}>
-              <label className={classes.Label}>Card Holder</label>
-              <div className={classes.CardHolderName}>
-                <CardHolder name={cardHolder} />
-              </div>
+          <div className={classes.CardHolder}>
+            <label className={classes.Label}>Card Holder</label>
+            <div className={classes.CardHolderName}>
+              <CardHolder name={cardHolder} />
             </div>
+          </div>
 
-            <div className={classes.Expiration}>
-              <label className={classes.Label}>Expires</label>
-              <div className={classes.ExpirationWrapper}>
-                <span className={classes.ExpirationMonth}>
-                  {expirationMonth || "MM"}
-                </span>
-                /
-                <span className={classes.ExpirationYear}>
-                  {expirationYear || "YY"}
-                </span>
-              </div>
+          <div className={classes.Expiration}>
+            <label className={classes.Label}>Expires</label>
+            <div className={classes.ExpirationWrapper}>
+              <span className={classes.ExpirationMonth}>
+                {expirationMonth || "MM"}
+              </span>
+              /
+              <span className={classes.ExpirationYear}>
+                {expirationYear || "YY"}
+              </span>
             </div>
           </div>
         </div>

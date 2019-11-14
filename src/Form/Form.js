@@ -122,7 +122,7 @@ const Form = ({
     }
 
     if (name === "cardCvc") {
-      value = value.substring(0, 4);
+      value = value.replace(/\D+/g, "").substring(0, 4);
     }
 
     if (name === "cardNumber") {
@@ -309,6 +309,7 @@ const Form = ({
               <input
                 className={cvcClasses}
                 type="text"
+                value={fields.cardCvc.value}
                 {...fields.cardCvc.config}
                 onChange={onFieldChange.bind(this, fields.cardCvc.config.name)}
                 onFocus={onFocus.bind(this, "cardCvc")}

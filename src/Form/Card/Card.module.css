@@ -1,5 +1,6 @@
 .Card {
   width: 75%;
+  min-width: 270px;
   max-width: 430px;
   position: relative;
   transform: translate(-50%, 50%);
@@ -63,7 +64,7 @@
   width: 100%;
   transform-style: preserve-3d;
   transition: transform 1s;
-  padding: 1.5em 1em;
+  padding: 1.5em;
 }
 
 .Wrapper.IsFlipped {
@@ -77,6 +78,10 @@
   height: 100%;
   width: 100%;
   justify-content: space-between;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas: "chip logo" "number number" "name expiration";
 }
 
 .Backward {
@@ -95,40 +100,45 @@
   border-radius: 1em;
 }
 
-.CardNumber {
-  height: 2.5rem;
-  border-radius: 0.2rem;
-  padding-left: 0.5rem;
-  display: flex;
-  align-items: center;
-}
-
-.BottomRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-.TopRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.Chip {
-  width: 16%;
-  height: auto;
-}
-
 .Label {
   font-size: 13px;
   margin-bottom: 0.5em;
   color: rgba(255, 255, 255, 0.7);
 }
 
+.CardNumber {
+  height: 2.5rem;
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+  display: flex;
+  align-items: center;
+  grid-area: number;
+  justify-self: stretch;
+  width: 100%;
+  align-self: center;
+}
+
+.Chip {
+  width: 20%;
+  height: auto;
+  grid-area: chip;
+  justify-self: start;
+  align-self: start;
+}
+
+.Logo {
+  width: 100%;
+  grid-area: logo;
+  justify-self: end;
+  align-self: start;
+}
+
 .CardHolder {
   padding-left: 0.2rem;
-  height: 100%;
-  width: 75%;
+  width: 100%;
+  grid-area: name;
+  justify-self: start;
+  align-self: end;
 }
 
 .CardHolderName {
@@ -140,16 +150,23 @@
 
 .Expiration {
   padding-right: 0.2em;
-  width: 20%;
+  width: auto;
+  grid-area: expiration;
+  justify-self: end;
+  align-self: end;
 }
 
 .ExpirationWrapper {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
+  /* justify-content: space-between; */
+  /* width: 100%; */
 }
 
 .ExpirationMonth {
+  display: inline-block;
+}
+
+.ExpirationYear {
   display: inline-block;
 }
 

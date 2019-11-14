@@ -2,10 +2,4 @@
   width: 100%;
   height: auto;
   transition: 0.1s linear;
-  /* display: block; */
-}
-.Wrapper {
-  width: 18%;
-  display: inline-block;
-  overflow: hidden;
 }

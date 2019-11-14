@@ -3,7 +3,8 @@
   height: 1em;
   line-height: 1em;
   font-size: 18px;
-  width: 4%;
+  width: 5%;
+  max-width: 1em;
   position: relative;
   transition: 0.2s;
 }
