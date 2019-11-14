@@ -23,7 +23,7 @@ const Logo = ({ cardType }) => {
   }
   return (
     <div className={classes.Wrapper}>
-      <SwitchTransition in-out>
+      <SwitchTransition>
         <CSSTransition key={cardType} classNames="move-up" timeout={100}>
           <img
             src={cardLogo}

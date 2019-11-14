@@ -1,34 +1,22 @@
-import React, { useRef } from "react";
+import React from "react";
 import CardNumber from "../CardNumber/CardNumber";
-import HashNumber from "../HashNumber/HashNumber";
-import TransitionGroup from "react-transition-group/TransitionGroup";
+import SwitchTransition from "react-transition-group/SwitchTransition";
 import CSSTransition from "react-transition-group/CSSTransition";
 import "../Transitions.css";
 
 const CardNumbers = ({ numbers }) => {
-  const numArray = numbers.split("");
-  const resultArray = numArray.map(
-    (el, index) => (
-      <CSSTransition
-        key={numArray[index] + index}
-        classNames="move-up"
-        timeout={100}
-      >
-        <CardNumber number={numArray[index]} />
-      </CSSTransition>
-    )
-    //   <CardNumber
-    //     key={numArray[index] + index}
-    //     number={numArray[index] || "#"}
-    //   />
-    // )
-    // numArray[index] ? (
-    //   <CardNumber key={numArray[index] + index} number={numArray[index]} />
-    // ) : (
-    //   <HashNumber />
-    // )
+  const arr = [...new Array(19)].map((_, i) =>
+    numbers[i] ? numbers[i] : (i + 1) % 5 ? "#" : " "
   );
-  return <TransitionGroup component={null}>{resultArray}</TransitionGroup>;
+
+  const resultArray = arr.map((el, i) => (
+    <SwitchTransition>
+      <CSSTransition key={el + i} classNames="move-up" timeout={200}>
+        <CardNumber number={el} />
+      </CSSTransition>
+    </SwitchTransition>
+  ));
+  return resultArray;
 };
 
 export default CardNumbers;
