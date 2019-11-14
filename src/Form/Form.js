@@ -116,38 +116,17 @@ const Form = ({
   const onFieldChange = (name, e) => {
     let value = e.target.value;
     let errors;
-    let maskedValue;
 
     if (name === "expirationYear") {
       value = value.substring(0, 2);
     }
 
+    if (name === "cardCvc") {
+      value = value.substring(0, 4);
+    }
+
     if (name === "cardNumber") {
-      let unmaskedValue = value.replace(/\D+/g, "").substring(0, 16);
-      const oldMaskedValue = fields.cardNumber.maskedValue;
-      //check if used is editing the card number
-      if (oldMaskedValue.slice(0, -1) === value) {
-        maskedValue = value;
-      } else {
-        maskedValue = unmaskedValue
-          .replace(/(\d{4})/g, "$1 ")
-          .replace(/(\d{4}) (\d{4}) (\d{4}) (\d{4}) /, "$1 $2 $3 $4");
-      }
-
-      setCardType(checkType(unmaskedValue));
-
-      errors = validate(unmaskedValue, name, fields[name].validation);
-
-      setFields({
-        ...fields,
-        cardNumber: {
-          ...fields.cardNumber,
-          value: unmaskedValue,
-          maskedValue,
-          errors,
-          valid: !errors
-        }
-      });
+      onCardNumberFieldChange(name, value);
     } else {
       errors = validate(value, name, fields[name].validation);
 
@@ -161,6 +140,35 @@ const Form = ({
         }
       });
     }
+  };
+
+  const onCardNumberFieldChange = (name, value) => {
+    let maskedValue;
+    let unmaskedValue = value.replace(/\D+/g, "").substring(0, 16);
+    const oldMaskedValue = fields.cardNumber.maskedValue;
+    //check if used is editing the card number
+    if (oldMaskedValue.slice(0, -1) === value) {
+      maskedValue = value;
+    } else {
+      maskedValue = unmaskedValue
+        .replace(/(\d{4})/g, "$1 ")
+        .replace(/(\d{4}) (\d{4}) (\d{4}) (\d{4}) /, "$1 $2 $3 $4");
+    }
+
+    setCardType(checkType(unmaskedValue));
+
+    const errors = validate(unmaskedValue, name, fields[name].validation);
+
+    setFields({
+      ...fields,
+      cardNumber: {
+        ...fields.cardNumber,
+        value: unmaskedValue,
+        maskedValue,
+        errors,
+        valid: !errors
+      }
+    });
   };
 
   const onFocus = name => {

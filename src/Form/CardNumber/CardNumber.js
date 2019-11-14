@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./CardNumber.module.css";
 
-const CardNumber = ({ number, active }) => {
+const CardNumber = ({ number }) => {
   return (
     <div className={classes.CardNumber}>
       <div className={classes.Number}>{number}</div>
