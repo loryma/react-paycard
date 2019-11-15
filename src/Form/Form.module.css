@@ -10,6 +10,7 @@
   padding: 25% 15px 15px;
   width: 100%;
   margin-top: -20%;
+  box-shadow: 2px 2px 25px rgba(0, 0, 0, 0.1);
 }
 
 .FormWrapper {
@@ -23,13 +24,7 @@
 }
 
 .RowExpieryCvc {
-  display: flex;
   margin-top: 2em;
-}
-
-.RowExpiery {
-  width: 60%;
-  margin-right: auto;
 }
 
 .RowExpieryFields {
@@ -47,8 +42,8 @@
 }
 
 .RowCvc {
-  width: 26%;
   position: relative;
+  margin-top: 2em;
 }
 
 .Label {
@@ -85,5 +80,20 @@
     background-color: white;
     border-radius: 0.5em;
     padding: 25% 35px 35px;
+  }
+
+  .RowExpiery {
+    width: 60%;
+    margin-right: auto;
+  }
+
+  .RowCvc {
+    width: 26%;
+    position: relative;
+    margin-top: 0;
+  }
+
+  .RowExpieryCvc {
+    display: flex;
   }
 }

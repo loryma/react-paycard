@@ -4,6 +4,7 @@ import chip from "./chip.png";
 import Logo from "../Logo/Logo";
 import CardNumbers from "../CardNumbers/CardNumbers";
 import CardHolder from "../CardHolder/CardHolder";
+import img from "../../card.jpg";
 
 const Card = ({
   cardNumber,
@@ -25,7 +26,10 @@ const Card = ({
 
   return (
     <div className={classes.Card}>
-      <div className={WrapperClasses}>
+      <div
+        style={{ backgroundImage: `url(${img})` }}
+        className={WrapperClasses}
+      >
         <div className={classes.Forward}>
           <div className={FocusClasses}></div>
           <img src={chip} alt="card chip" className={classes.Chip} />
@@ -56,7 +60,10 @@ const Card = ({
             </div>
           </div>
         </div>
-        <div className={classes.Backward}>
+        <div
+          style={{ backgroundImage: `url(${img})` }}
+          className={classes.Backward}
+        >
           <div className={classes.Cvc}>{cardCvc}</div>
         </div>
       </div>

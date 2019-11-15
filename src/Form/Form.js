@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import FormContext from "./FormContext";
 import Card from "./Card/Card";
 import Input from "./Input/Input";
 import checkType from "./utilities/checkCardType";
@@ -164,7 +163,7 @@ const Form = ({
     let unmaskedValue = value.replace(/\D+/g, "").substring(0, 16);
     const oldMaskedValue = fields.cardNumber.maskedValue;
     //check if used is editing the card number
-    if (oldMaskedValue.slice(0, -1) === value || unmaskedValue === value) {
+    if (oldMaskedValue.slice(0, -1) === value) {
       maskedValue = value;
     } else {
       maskedValue = unmaskedValue
@@ -229,13 +228,18 @@ const Form = ({
 
   for (const key in fields) {
     const value = fields[key].maskedValue || fields[key].value;
+    const focusName =
+      fields[key].config.name === "expirationMonth" ||
+      fields[key].config.name === "expirationYear"
+        ? "expiration"
+        : fields[key].config.name;
     inputs[key] = (
       <Input
         type={fields[key].type}
         config={fields[key].config}
         value={value}
         onChange={onFieldChange.bind(this, fields[key].config.name)}
-        onFocus={onFocus.bind(this, fields[key].config.name)}
+        onFocus={onFocus.bind(this, focusName)}
         onBlur={onBlur.bind(this, fields[key].config.name)}
         errors={fields[key].errors}
         touched={fields[key].touched}
@@ -244,51 +248,47 @@ const Form = ({
   }
 
   return (
-    <FormContext.Provider value={{ data: fields }}>
-      <div className={classes.FormWrapper} style={style}>
-        <Card
-          cardNumber={fields.cardNumber.maskedValue}
-          cardHolder={fields.cardHolder.value}
-          expirationMonth={fields.expirationMonth.value}
-          expirationYear={fields.expirationYear.value}
-          cardCvc={fields.cardCvc.value}
-          isFlipped={isFlipped}
-          cardType={cardType}
-          focusedField={focusedField}
-        />
-        <form onSubmit={onFormSubmit} className={classes.Form} noValidate>
-          <div className={classes.Row}>
-            <label className={classes.Label}>Card Number</label>
-            {inputs.cardNumber}
-          </div>
-          <div className={classes.Row}>
-            <label className={classes.Label}>Card Holder</label>
-            {inputs.cardHolder}
-          </div>
-          <div className={classes.RowExpieryCvc}>
-            <div className={classes.RowExpiery}>
-              <label className={classes.Label}>Expiration Date</label>
-              <div className={classes.RowExpieryFields}>
-                <div className={classes.ExpieryMonth}>
-                  {inputs.expirationMonth}
-                </div>
-
-                <div className={classes.ExpieryYear}>
-                  {inputs.expirationYear}
-                </div>
+    <div className={classes.FormWrapper} style={style}>
+      <Card
+        cardNumber={fields.cardNumber.maskedValue}
+        cardHolder={fields.cardHolder.value}
+        expirationMonth={fields.expirationMonth.value}
+        expirationYear={fields.expirationYear.value}
+        cardCvc={fields.cardCvc.value}
+        isFlipped={isFlipped}
+        cardType={cardType}
+        focusedField={focusedField}
+      />
+      <form onSubmit={onFormSubmit} className={classes.Form} noValidate>
+        <div className={classes.Row}>
+          <label className={classes.Label}>Card Number</label>
+          {inputs.cardNumber}
+        </div>
+        <div className={classes.Row}>
+          <label className={classes.Label}>Card Holder</label>
+          {inputs.cardHolder}
+        </div>
+        <div className={classes.RowExpieryCvc}>
+          <div className={classes.RowExpiery}>
+            <label className={classes.Label}>Expiration Date</label>
+            <div className={classes.RowExpieryFields}>
+              <div className={classes.ExpieryMonth}>
+                {inputs.expirationMonth}
               </div>
-            </div>
-            <div className={classes.RowCvc}>
-              <label className={classes.Label}>Cvc</label>
-              {inputs.cardCvc}
+
+              <div className={classes.ExpieryYear}>{inputs.expirationYear}</div>
             </div>
           </div>
-          <button type="submit" className={classes.Submit}>
-            Submit
-          </button>
-        </form>
-      </div>
-    </FormContext.Provider>
+          <div className={classes.RowCvc}>
+            <label className={classes.Label}>Cvc</label>
+            {inputs.cardCvc}
+          </div>
+        </div>
+        <button type="submit" className={classes.Submit}>
+          Submit
+        </button>
+      </form>
+    </div>
   );
 };
 

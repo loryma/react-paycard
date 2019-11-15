@@ -2,4 +2,5 @@
   min-height: 100vh;
   background-color: #ddeefc;
   display: flex;
+  padding: 1em 0;
 }
