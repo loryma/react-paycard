@@ -7,8 +7,9 @@
 .Form {
   background-color: white;
   border-radius: 0.5em;
-  padding: 25% 5% 5% 5%;
+  padding: 25% 15px 15px;
   width: 100%;
+  margin-top: -20%;
 }
 
 .FormWrapper {
@@ -26,51 +27,34 @@
 }
 
 .RowExpiery {
-  width: 55%;
+  width: 60%;
   margin-right: auto;
 }
 
 .RowExpieryFields {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 15%;
 }
 
 .RowCvc {
-  width: 25%;
+  width: 26%;
 }
 
-.Input {
-  -webkit-appearance: none;
-  border-radius: 5px;
-  padding: 0 0 0 0.5rem;
-  height: 2.5rem;
-  display: block;
-  width: 100%;
-  font-size: 18px;
-  border: 1px solid #ced6e0;
-}
 .Label {
   display: inline-block;
   font-size: 14px;
   margin-bottom: 5px;
 }
 
-.ExpieryMonth {
+/* .ExpieryMonth {
   width: 45%;
   margin-right: auto;
 }
 
 .ExpieryYear {
   width: 45%;
-}
-
-.ExpieryYear::placeholder {
-  color: black;
-  font-size: 18px;
-}
-
-.ExpieryYear:focus::placeholder {
-  color: transparent;
-}
+} */
 
 .Submit {
   -webkit-appearance: none;
@@ -84,4 +68,12 @@
   line-height: 55px;
   color: white;
   background-color: #2364d2;
+}
+
+@media (min-width: 768px) {
+  .Form {
+    background-color: white;
+    border-radius: 0.5em;
+    padding: 25% 35px 35px;
+  }
 }

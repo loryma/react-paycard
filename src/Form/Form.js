@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import FormContext from "./FormContext";
 import Card from "./Card/Card";
+import Input from "./Input/Input";
 import checkType from "./utilities/checkCardType";
 import validate from "./utilities/validate";
 import classes from "./Form.module.css";
@@ -13,7 +14,7 @@ const discovery = /^(?:6(?:011|5[0-9][0-9])[0-9]{12})$/;
 const Form = ({
   style = {
     fontFamily: "Verdana",
-    margin: "0 auto",
+    margin: "auto",
     maxWidth: "570px",
     width: "90%"
   },
@@ -21,6 +22,7 @@ const Form = ({
 }) => {
   const [fields, setFields] = useState({
     cardNumber: {
+      type: "input",
       config: {
         name: "cardNumber",
         type: "text",
@@ -43,6 +45,7 @@ const Form = ({
       valid: false
     },
     cardHolder: {
+      type: "input",
       config: {
         name: "cardHolder",
         type: "text",
@@ -56,6 +59,7 @@ const Form = ({
       valid: false
     },
     expirationMonth: {
+      type: "select",
       config: {
         name: "expirationMonth"
       },
@@ -67,6 +71,7 @@ const Form = ({
       valid: false
     },
     expirationYear: {
+      type: "input",
       config: {
         name: "expirationYear",
         type: "number",
@@ -82,9 +87,10 @@ const Form = ({
       valid: false
     },
     cardCvc: {
+      type: "input",
       config: {
         name: "cardCvc",
-        type: "text"
+        type: "number"
       },
       validation: {
         requered: true,
@@ -99,10 +105,7 @@ const Form = ({
   const [cardType, setCardType] = useState("");
   const [focusedField, setFocusedField] = useState("");
   const [formIsValid, setFormIsValid] = useState();
-
-  const expieryMonthClasses = [classes.Input, classes.ExpieryMonth].join(" ");
-  const expieryYearClasses = [classes.Input, classes.ExpieryYear].join(" ");
-  const cvcClasses = [classes.Input, classes.CvcClasses].join(" ");
+  let inputs = {};
 
   useEffect(() => {
     const formValidity = Object.values(fields).reduce(
@@ -196,6 +199,21 @@ const Form = ({
     }
   };
 
+  for (const key in fields) {
+    const value = fields[key].maskedValue || fields[key].value;
+    inputs[key] = (
+      <Input
+        type={fields[key].type}
+        config={fields[key].config}
+        value={value}
+        onChange={onFieldChange.bind(this, fields[key].config.name)}
+        onFocus={onFocus.bind(this, fields[key].config.name)}
+        onBlur={onBlur.bind(this, fields[key].config.name)}
+        errors={fields[key].errors}
+      />
+    );
+  }
+
   return (
     <FormContext.Provider value={{ data: fields }}>
       <div className={classes.FormWrapper} style={style}>
@@ -211,110 +229,24 @@ const Form = ({
         />
         <form onSubmit={onFormSubmit} className={classes.Form} noValidate>
           <div className={classes.Row}>
-            <label className={classes.Label} htmlFor="cardNumber">
-              Card Number
-            </label>
-            <input
-              className={classes.Input}
-              id="cardNumber"
-              type="text"
-              {...fields.cardNumber.config}
-              value={fields.cardNumber.maskedValue}
-              onChange={onFieldChange.bind(this, fields.cardNumber.config.name)}
-              onFocus={onFocus.bind(this, "CardNumber")}
-            />
+            <label className={classes.Label}>Card Number</label>
+            {inputs.cardNumber}
           </div>
           <div className={classes.Row}>
-            <label className={classes.Label} htmlFor="cardHolder">
-              Card Holder
-            </label>
-            <input
-              className={classes.Input}
-              id="cardHolder"
-              type="text"
-              {...fields.cardHolder.config}
-              value={fields.cardHolder.value}
-              onChange={onFieldChange.bind(this, fields.cardHolder.config.name)}
-              onFocus={onFocus.bind(this, "CardHolder")}
-            />
+            <label className={classes.Label}>Card Holder</label>
+            {inputs.cardHolder}
           </div>
           <div className={classes.RowExpieryCvc}>
             <div className={classes.RowExpiery}>
               <label className={classes.Label}>Expiration Date</label>
               <div className={classes.RowExpieryFields}>
-                <select
-                  className={expieryMonthClasses}
-                  value={fields.expirationMonth.value}
-                  {...fields.expirationMonth.config}
-                  onChange={onFieldChange.bind(
-                    this,
-                    fields.expirationMonth.config.name
-                  )}
-                  onFocus={onFocus.bind(this, "Expiration")}
-                >
-                  <option className={classes.Option} value="">
-                    Month
-                  </option>
-                  <option className={classes.Option} value="01">
-                    Jan
-                  </option>
-                  <option className={classes.Option} value="02">
-                    Feb
-                  </option>
-                  <option className={classes.Option} value="03">
-                    Mar
-                  </option>
-                  <option className={classes.Option} value="04">
-                    Apr
-                  </option>
-                  <option className={classes.Option} value="05">
-                    May
-                  </option>
-                  <option className={classes.Option} value="06">
-                    Jun
-                  </option>
-                  <option className={classes.Option} value="07">
-                    Jul
-                  </option>
-                  <option className={classes.Option} value="08">
-                    Aug
-                  </option>
-                  <option className={classes.Option} value="09">
-                    Sep
-                  </option>
-                  <option className={classes.Option} value="10">
-                    Oct
-                  </option>
-                  <option className={classes.Option} value="11">
-                    Nov
-                  </option>
-                  <option className={classes.Option} value="12">
-                    Dec
-                  </option>
-                </select>
-                <input
-                  className={expieryYearClasses}
-                  {...fields.expirationYear.config}
-                  value={fields.expirationYear.value}
-                  onChange={onFieldChange.bind(
-                    this,
-                    fields.expirationYear.config.name
-                  )}
-                  onFocus={onFocus.bind(this, "Expiration")}
-                />
+                {inputs.expirationMonth}
+                {inputs.expirationYear}
               </div>
             </div>
             <div className={classes.RowCvc}>
               <label className={classes.Label}>Cvc</label>
-              <input
-                className={cvcClasses}
-                type="text"
-                value={fields.cardCvc.value}
-                {...fields.cardCvc.config}
-                onChange={onFieldChange.bind(this, fields.cardCvc.config.name)}
-                onFocus={onFocus.bind(this, "cardCvc")}
-                onBlur={onBlur.bind(this, "cardCvc")}
-              />
+              {inputs.cardCvc}
             </div>
           </div>
           <button type="submit" className={classes.Submit}>

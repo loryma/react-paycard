@@ -1,0 +1,23 @@
+.Input {
+  -webkit-appearance: none;
+  border-radius: 5px;
+  padding: 0 0 0 0.5rem;
+  height: 2.5rem;
+  display: block;
+  width: 100%;
+  font-size: 18px;
+  border: 1px solid #ced6e0;
+}
+
+.Input::placeholder {
+  color: black;
+  font-size: 18px;
+}
+
+.Input:focus::placeholder {
+  color: transparent;
+}
+
+.Invalid {
+  border-color: red;
+}
