@@ -16,7 +16,8 @@ const Form = ({
     fontFamily: "Verdana",
     margin: "auto",
     maxWidth: "570px",
-    width: "90%"
+    width: "90%",
+    boxShadow: "10px 10px 10px #ddeefc"
   },
   onSubmit
 }) => {
@@ -42,7 +43,9 @@ const Form = ({
       value: "",
       maskedValue: "",
       errors: false,
-      valid: false
+      valid: false,
+      edited: false,
+      touched: false
     },
     cardHolder: {
       type: "input",
@@ -56,7 +59,9 @@ const Form = ({
       },
       value: "",
       errors: false,
-      valid: false
+      valid: false,
+      edited: false,
+      touched: false
     },
     expirationMonth: {
       type: "select",
@@ -68,7 +73,9 @@ const Form = ({
       },
       value: "",
       errors: false,
-      valid: false
+      valid: false,
+      edited: false,
+      touched: false
     },
     expirationYear: {
       type: "input",
@@ -79,12 +86,14 @@ const Form = ({
       },
       validation: {
         requered: true,
-        min: `${new Date().getFullYear()}`.substring(-2),
-        max: `${new Date().getFullYear() + 10}`.substring(-2)
+        min: `${new Date().getFullYear()}`.slice(-2),
+        max: `${new Date().getFullYear() + 10}`.slice(-2)
       },
       value: "",
       errors: false,
-      valid: false
+      valid: false,
+      edited: false,
+      touched: false
     },
     cardCvc: {
       type: "input",
@@ -94,11 +103,15 @@ const Form = ({
       },
       validation: {
         requered: true,
-        regex: /^[0-9]{3,4}$/
+        regex: /^[0-9]{3,4}$/,
+        minWidth: 3,
+        maxWidth: 4
       },
       value: "",
       errors: false,
-      valid: false
+      valid: false,
+      edited: false,
+      touched: false
     }
   });
   const [isFlipped, setIsFlipped] = useState(false);
@@ -133,15 +146,16 @@ const Form = ({
     } else {
       errors = validate(value, name, fields[name].validation);
 
-      setFields({
-        ...fields,
+      setFields(state => ({
+        ...state,
         [name]: {
-          ...fields[name],
+          ...state[name],
           value,
           errors,
-          valid: !errors
+          valid: !errors,
+          edited: true
         }
-      });
+      }));
     }
   };
 
@@ -150,7 +164,7 @@ const Form = ({
     let unmaskedValue = value.replace(/\D+/g, "").substring(0, 16);
     const oldMaskedValue = fields.cardNumber.maskedValue;
     //check if used is editing the card number
-    if (oldMaskedValue.slice(0, -1) === value) {
+    if (oldMaskedValue.slice(0, -1) === value || unmaskedValue === value) {
       maskedValue = value;
     } else {
       maskedValue = unmaskedValue
@@ -160,18 +174,21 @@ const Form = ({
 
     setCardType(checkType(unmaskedValue));
 
-    const errors = validate(unmaskedValue, name, fields[name].validation);
+    let errors = validate(unmaskedValue, name, fields[name].validation);
 
-    setFields({
-      ...fields,
+    setFields(state => ({
+      ...state,
       cardNumber: {
-        ...fields.cardNumber,
+        ...state.cardNumber,
         value: unmaskedValue,
         maskedValue,
-        errors,
-        valid: !errors
+        errors: errors,
+        valid: !errors,
+        edited: true
       }
-    });
+    }));
+
+    console.log(errors, fields.cardNumber);
   };
 
   const onFocus = name => {
@@ -185,6 +202,9 @@ const Form = ({
     if (name === "cardCvc") {
       setIsFlipped(false);
     }
+    if (!fields[name].touched && fields[name].edited) {
+      fields[name].touched = true;
+    }
   };
 
   const onFormSubmit = e => {
@@ -196,6 +216,14 @@ const Form = ({
         formData[key] = fields[key].value;
       }
       onSubmit(formData);
+    } else {
+      for (let key in fields) {
+        onFieldChange(key, { target: { value: fields[key].value } });
+        setFields(state => ({
+          ...state,
+          [key]: { ...state[key], touched: true }
+        }));
+      }
     }
   };
 
@@ -210,6 +238,7 @@ const Form = ({
         onFocus={onFocus.bind(this, fields[key].config.name)}
         onBlur={onBlur.bind(this, fields[key].config.name)}
         errors={fields[key].errors}
+        touched={fields[key].touched}
       />
     );
   }
@@ -240,8 +269,13 @@ const Form = ({
             <div className={classes.RowExpiery}>
               <label className={classes.Label}>Expiration Date</label>
               <div className={classes.RowExpieryFields}>
-                {inputs.expirationMonth}
-                {inputs.expirationYear}
+                <div className={classes.ExpieryMonth}>
+                  {inputs.expirationMonth}
+                </div>
+
+                <div className={classes.ExpieryYear}>
+                  {inputs.expirationYear}
+                </div>
               </div>
             </div>
             <div className={classes.RowCvc}>

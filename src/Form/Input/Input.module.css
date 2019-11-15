@@ -19,5 +19,18 @@
 }
 
 .Invalid {
-  border-color: red;
+  border-color: rgba(255, 0, 0, 0.5);
+}
+
+.Invalid:focus {
+  outline: rgba(255, 0, 0, 0.5) 1px auto;
+}
+
+.Error {
+  position: absolute;
+  left: 0;
+  margin: 0;
+  color: rgba(255, 0, 0, 0.5);
+  font-size: 10px;
+  top: calc(100% + 0.5em);
 }

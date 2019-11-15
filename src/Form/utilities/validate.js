@@ -21,6 +21,28 @@ const validate = (value, name, validation) => {
           }
         }
         break;
+      case "min":
+        if (Number(value) < validation[key]) {
+          errors.push(`Can't be less then ${validation[key]}`);
+        }
+        break;
+
+      case "max":
+        if (Number(value) > validation[key]) {
+          errors.push(`Can't be more then ${validation[key]}`);
+        }
+        break;
+      case "minWidth":
+        if (value.length < validation[key]) {
+          errors.push(`Should be longer then ${validation[key]}`);
+        }
+        break;
+
+      case "maxWidth":
+        if (value.length > validation[key]) {
+          errors.push(`Should be shorter then ${validation[key]}`);
+        }
+        break;
       default:
         console.log("Unknown validation key");
     }
