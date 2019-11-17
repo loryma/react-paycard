@@ -16,31 +16,49 @@ const validate = (value, name, validation) => {
             regexValue = regexValue || validation[key][x].test(value);
           }
 
-          if (!regexValue) {
+          const valid = checkLuhn(value);
+
+          if (!regexValue || !valid) {
             errors.push("Incorrect number");
           }
+        } else if (!validation[key].test(value)) {
+          errors.push("Incorrect number");
         }
         break;
       case "min":
-        if (Number(value) < validation[key]) {
-          errors.push(`Can't be less then ${validation[key]}`);
+        if (value.length === 2) {
+          if (Number(value) < validation[key].short) {
+            errors.push(`Expiery date can't be in the past`);
+          }
+        } else if (value.length === 4) {
+          if (Number(value) < validation[key].long) {
+            errors.push(`Expiery date can't be in the past`);
+          }
         }
+
         break;
 
       case "max":
-        if (Number(value) > validation[key]) {
-          errors.push(`Can't be more then ${validation[key]}`);
+        if (value.length === 2) {
+          if (Number(value) > validation[key].short) {
+            errors.push(`Expiery date is incorrect`);
+          }
+        } else if (value.length === 4) {
+          if (Number(value) > validation[key].long) {
+            errors.push(`Expiery date is incorrect`);
+          }
         }
+
         break;
       case "minWidth":
         if (value.length < validation[key]) {
-          errors.push(`Should be longer then ${validation[key]}`);
+          errors.push(`Too short`);
         }
         break;
 
       case "maxWidth":
         if (value.length > validation[key]) {
-          errors.push(`Should be shorter then ${validation[key]}`);
+          errors.push(`Too long`);
         }
         break;
       default:
@@ -49,6 +67,23 @@ const validate = (value, name, validation) => {
   }
 
   return errors.length > 0 ? errors : false;
+};
+
+const checkLuhn = value => {
+  let sum = 0;
+  let shouldDouble = false;
+
+  for (let i = value.length - 1; i >= 0; i--) {
+    let digit = parseInt(value.charAt(i));
+
+    if (shouldDouble) {
+      if ((digit *= 2) > 9) digit -= 9;
+    }
+
+    sum += digit;
+    shouldDouble = !shouldDouble;
+  }
+  return sum % 10 === 0;
 };
 
 export default validate;

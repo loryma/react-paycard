@@ -1,0 +1,12 @@
+.Char {
+  transition: 0.2s linear;
+  display: inline-block;
+}
+
+.Placeholder {
+  display: inline-block;
+}
+
+.Content {
+  transition: 0.2s linear;
+}

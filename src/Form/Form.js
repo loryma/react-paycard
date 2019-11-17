@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Card from "./Card/Card";
 import Input from "./Input/Input";
 import checkType from "./utilities/checkCardType";
 import validate from "./utilities/validate";
+import creditCards from "./utilities/creditCards";
 import classes from "./Form.module.css";
 
-const visa = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
-const masterCard = /^(?:5[1-5][0-9]{14})$/;
-const americanExpress = /^(?:3[47][0-9]{13})$/;
-const discovery = /^(?:6(?:011|5[0-9][0-9])[0-9]{12})$/;
+const minShort = Number(`${new Date().getFullYear()}`.slice(-2));
+const minLong = new Date().getFullYear();
+const maxShort = Number(`${new Date().getFullYear() + 10}`.slice(-2));
+const maxLong = new Date().getFullYear() + 10;
 
 const Form = ({
   style = {
@@ -31,10 +32,7 @@ const Form = ({
       validation: {
         requered: true,
         regex: {
-          visa,
-          masterCard,
-          americanExpress,
-          discovery
+          ...creditCards
         },
         minWidth: 13,
         maxWidth: 16
@@ -44,7 +42,8 @@ const Form = ({
       errors: false,
       valid: false,
       edited: false,
-      touched: false
+      touched: false,
+      ref: useRef(null)
     },
     cardHolder: {
       type: "input",
@@ -60,7 +59,8 @@ const Form = ({
       errors: false,
       valid: false,
       edited: false,
-      touched: false
+      touched: false,
+      ref: useRef(null)
     },
     expirationMonth: {
       type: "select",
@@ -70,35 +70,38 @@ const Form = ({
       validation: {
         requered: true
       },
-      value: "",
+      value: `0${new Date().getMonth() + 1}`.slice(-2),
       errors: false,
       valid: false,
       edited: false,
-      touched: false
+      touched: false,
+      ref: useRef(null)
     },
     expirationYear: {
       type: "input",
       config: {
         name: "expirationYear",
-        type: "number",
+        type: "text",
         placeholder: "Year"
       },
       validation: {
         requered: true,
-        min: `${new Date().getFullYear()}`.slice(-2),
-        max: `${new Date().getFullYear() + 10}`.slice(-2)
+        regex: /^((\d{2})|(\d{4}))$/,
+        min: { long: minLong, short: minShort },
+        max: { long: maxLong, short: maxShort }
       },
-      value: "",
+      value: `${new Date().getFullYear()}`.slice(-2),
       errors: false,
       valid: false,
       edited: false,
-      touched: false
+      touched: false,
+      ref: useRef(null)
     },
     cardCvc: {
       type: "input",
       config: {
         name: "cardCvc",
-        type: "number"
+        type: "text"
       },
       validation: {
         requered: true,
@@ -110,7 +113,8 @@ const Form = ({
       errors: false,
       valid: false,
       edited: false,
-      touched: false
+      touched: false,
+      ref: useRef(null)
     }
   });
   const [isFlipped, setIsFlipped] = useState(false);
@@ -133,7 +137,7 @@ const Form = ({
     let errors;
 
     if (name === "expirationYear") {
-      value = value.substring(0, 2);
+      value = value.replace(/\D+/g, "").substring(0, 4);
     }
 
     if (name === "cardCvc") {
@@ -206,6 +210,10 @@ const Form = ({
     }
   };
 
+  const focusField = name => {
+    fields[name].ref.current.focus();
+  };
+
   const onFormSubmit = e => {
     e.preventDefault();
 
@@ -243,6 +251,7 @@ const Form = ({
         onBlur={onBlur.bind(this, fields[key].config.name)}
         errors={fields[key].errors}
         touched={fields[key].touched}
+        ref={fields[key].ref}
       />
     );
   }
@@ -258,6 +267,7 @@ const Form = ({
         isFlipped={isFlipped}
         cardType={cardType}
         focusedField={focusedField}
+        focusField={focusField}
       />
       <form onSubmit={onFormSubmit} className={classes.Form} noValidate>
         <div className={classes.Row}>

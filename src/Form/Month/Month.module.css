@@ -1,0 +1,7 @@
+.Placeholder {
+  display: inline-block;
+}
+
+.Content {
+  transition: 0.2s linear;
+}

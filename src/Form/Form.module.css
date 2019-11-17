@@ -9,7 +9,7 @@
   border-radius: 0.5em;
   padding: 25% 15px 15px;
   width: 100%;
-  margin-top: -20%;
+  margin-top: -25%;
   box-shadow: 2px 2px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -52,27 +52,19 @@
   margin-bottom: 5px;
 }
 
-/* .ExpieryMonth {
-  width: 45%;
-  margin-right: auto;
-}
-
-.ExpieryYear {
-  width: 45%;
-} */
-
 .Submit {
   -webkit-appearance: none;
   appearance: none;
   border-radius: 5px;
   border: 1px solid #2364d2;
-  margin-top: 2rem;
+  margin-top: 2em;
   font-size: 22px;
   width: 100%;
   height: 55px;
   line-height: 55px;
   color: white;
   background-color: #2364d2;
+  user-select: none;
 }
 
 @media (min-width: 768px) {

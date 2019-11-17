@@ -7,74 +7,24 @@
   padding-top: 55%;
   border-radius: 1em;
   color: white;
-  perspective: 1000px;
   text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
 }
 
-.Focus {
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 5px;
-  position: absolute;
-  transition: top 0.6s, width 0.6s, left 0.6s;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-}
-
-.Focus-cardNumber {
-  z-index: 2;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  height: 2.5rem;
-  width: 100%;
-  transition: top 0.6s, width 0.6s;
-  opacity: 1;
-}
-
-.Focus-cardHolder {
-  z-index: 2;
-  top: calc(100% + 0.4em);
-  transform: translateY(-100%);
-  left: 0;
-  height: 3rem;
-  width: 70%;
-  opacity: 1;
-}
-
-.Focus-expiration {
-  z-index: 2;
-  top: calc(100% + 0.4em);
-  transform: translate(-100%, -100%);
-  left: calc(100% + 0.2em);
-  height: 3rem;
-  width: 30%;
-  transition: top 0.6s, width 0.6s;
-  opacity: 1;
-}
-
 .Wrapper {
-  border-radius: 1em;
   top: 0;
   left: 0;
   height: 100%;
   position: absolute;
   width: 100%;
-  transform-style: preserve-3d;
-  transition: transform 1s;
+}
+
+.Forward {
+  border-radius: 1em;
+  display: flex;
   padding: 1em;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  box-shadow: 2px 2px 35px rgba(0, 0, 0, 0.4);
-}
-
-.Wrapper.IsFlipped {
-  transform: rotateY(180deg);
-}
-
-.Forward {
-  display: flex;
   flex-direction: column;
   position: relative;
   height: 100%;
@@ -84,6 +34,12 @@
   grid-template-columns: 3.5fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-areas: "chip logo" "number number" "name expiration";
+  z-index: 2;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateY(0deg);
+  backface-visibility: hidden;
+  box-shadow: 0 20px 60px 0 rgba(14, 42, 90, 0.55);
 }
 
 .Backward {
@@ -96,11 +52,31 @@
   width: 100%;
   justify-content: center;
   padding: 1em;
-  transform: rotateY(180deg);
+  transition: transform 1s;
+  transform: perspective(1000px) rotateY(180deg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 1em;
+  backface-visibility: hidden;
+}
+
+.Backward::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2em;
+  top: 1em;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.Wrapper.IsFlipped .Forward {
+  transform: perspective(1000px) rotateY(180deg);
+}
+
+.Wrapper.IsFlipped .Backward {
+  transform: perspective(1000px) rotateY(0deg);
 }
 
 .Label {
@@ -120,6 +96,7 @@
   justify-self: stretch;
   width: 100%;
   align-self: center;
+  cursor: pointer;
 }
 
 .Chip {
@@ -144,6 +121,7 @@
   grid-area: name;
   justify-self: start;
   align-self: end;
+  cursor: pointer;
 }
 
 .CardHolderName {
@@ -159,6 +137,7 @@
   grid-area: expiration;
   justify-self: end;
   align-self: end;
+  cursor: pointer;
 }
 
 .ExpirationWrapper {
@@ -177,7 +156,7 @@
 
 .Cvc {
   color: black;
-  width: 100%;
+  width: 70%;
   height: 2.5rem;
   line-height: 2.5rem;
   background-color: white;
@@ -185,6 +164,7 @@
   text-align: right;
   padding-right: 0.5rem;
   font-size: 0.8em;
+  font-style: italic;
 }
 
 @media (min-width: 768px) {
@@ -198,5 +178,9 @@
   }
   .Wrapper {
     padding: 1.5em;
+  }
+
+  .Backward::before {
+    height: 3em;
   }
 }
