@@ -1,8 +1,3 @@
-const visa = /^4/;
-const masterCard = /^(?:5[1-5])/;
-const americanExpress = /^(?:3[47])/;
-const discovery = /^(?:6(?:011|5[0-9][0-9]))/;
-
 const cards = {
   visa: /^4/,
   masterCard: /^5[1-5]/,

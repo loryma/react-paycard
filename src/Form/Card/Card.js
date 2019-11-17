@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import classes from "./Card.module.css";
 import chip from "./chip.png";
 import Logo from "../Logo/Logo";
@@ -24,6 +24,21 @@ const Card = ({
     classes.Wrapper,
     isFlipped ? classes.IsFlipped : ""
   ].join(" ");
+  const refs = {
+    cardNumber: useRef(null),
+    cardHolder: useRef(null),
+    expiration: useRef(null)
+  };
+  let focusStyle = {
+    width: focusedField
+      ? refs[focusedField].current.offsetWidth + "px"
+      : "100%",
+    height: focusedField
+      ? refs[focusedField].current.offsetHeight + "px"
+      : "100%",
+    left: focusedField ? refs[focusedField].current.offsetLeft + "px" : "0",
+    top: focusedField ? refs[focusedField].current.offsetTop + "px" : "0"
+  };
 
   const onClick = name => {
     focusField(name);
@@ -35,7 +50,7 @@ const Card = ({
     <div className={classes.Card}>
       <div className={WrapperClasses}>
         <div style={style} className={classes.Forward}>
-          <Focus focusedField={focusedField} />
+          <Focus style={focusStyle} focusedField={focusedField} />
           <img src={chip} alt="card chip" className={classes.Chip} />
 
           <div className={classes.Logo}>
@@ -43,6 +58,7 @@ const Card = ({
           </div>
           <div
             onClick={onClick.bind(this, "cardNumber")}
+            ref={refs.cardNumber}
             className={classes.CardNumber}
           >
             <CardNumbers numbers={cardNumber} />
@@ -50,6 +66,7 @@ const Card = ({
           <div
             onClick={onClick.bind(this, "cardHolder")}
             className={classes.CardHolder}
+            ref={refs.cardHolder}
           >
             <label className={classes.Label}>Card Holder</label>
             <div className={classes.CardHolderName}>
@@ -57,7 +74,7 @@ const Card = ({
             </div>
           </div>
 
-          <div onClick={e => alert(e)} className={classes.Expiration}>
+          <div ref={refs.expiration} className={classes.Expiration}>
             <label className={classes.Label}>Expires</label>
             <div className={classes.ExpirationWrapper}>
               <span
@@ -71,7 +88,7 @@ const Card = ({
                 onClick={onClick.bind(this, "expirationYear")}
                 className={classes.ExpirationYear}
               >
-                <Year year={expirationYear} />
+                <Year ref={refs.ExpirationYear} year={expirationYear} />
               </span>
             </div>
           </div>

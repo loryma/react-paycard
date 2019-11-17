@@ -195,9 +195,11 @@ const Form = ({
   };
 
   const onFocus = name => {
-    setFocusedField(name);
     if (name === "cardCvc") {
       setIsFlipped(true);
+      setFocusedField("");
+    } else {
+      setFocusedField(name);
     }
   };
 

@@ -116,7 +116,7 @@
 }
 
 .CardHolder {
-  padding-left: 0.2rem;
+  padding: 0.2em;
   width: 100%;
   grid-area: name;
   justify-self: start;
@@ -132,12 +132,13 @@
 }
 
 .Expiration {
-  padding-right: 0.2em;
+  padding: 0.2em;
   width: 100%;
   grid-area: expiration;
-  justify-self: end;
+  justify-self: center;
   align-self: end;
   cursor: pointer;
+  text-align: center;
 }
 
 .ExpirationWrapper {
@@ -148,10 +149,15 @@
 
 .ExpirationMonth {
   display: inline-block;
+  width: 50%;
+  text-align: right;
 }
 
 .ExpirationYear {
   display: inline-block;
+  width: 50%;
+  white-space: nowrap;
+  text-align: left;
 }
 
 .Cvc {
