@@ -12,8 +12,7 @@ import img from "../../card.jpg";
 const Card = ({
   cardNumber,
   cardHolder,
-  expirationMonth,
-  expirationYear,
+  expiration,
   cardCvc,
   isFlipped,
   cardType,
@@ -43,6 +42,9 @@ const Card = ({
   const onClick = name => {
     focusField(name);
   };
+
+  const expirationMonth = expiration.slice(0, 2);
+  const expirationYear = expiration.split("/")[1] || "";
 
   const style = { backgroundImage: `url(${img})` };
 
@@ -78,14 +80,14 @@ const Card = ({
             <label className={classes.Label}>Expires</label>
             <div className={classes.ExpirationWrapper}>
               <span
-                onClick={onClick.bind(this, "expirationMonth")}
+                onClick={onClick.bind(this, "expiration")}
                 className={classes.ExpirationMonth}
               >
                 <Month month={expirationMonth} />
               </span>
               /
               <span
-                onClick={onClick.bind(this, "expirationYear")}
+                onClick={onClick.bind(this, "expiration")}
                 className={classes.ExpirationYear}
               >
                 <Year ref={refs.ExpirationYear} year={expirationYear} />

@@ -23,7 +23,6 @@ const Form = ({
 }) => {
   const [fields, setFields] = useState({
     cardNumber: {
-      type: "input",
       config: {
         name: "cardNumber",
         type: "text",
@@ -46,7 +45,6 @@ const Form = ({
       ref: useRef(null)
     },
     cardHolder: {
-      type: "input",
       config: {
         name: "cardHolder",
         type: "text",
@@ -62,35 +60,25 @@ const Form = ({
       touched: false,
       ref: useRef(null)
     },
-    expirationMonth: {
-      type: "select",
+    expiration: {
       config: {
-        name: "expirationMonth"
-      },
-      validation: {
-        requered: true
-      },
-      value: `0${new Date().getMonth() + 1}`.slice(-2),
-      errors: false,
-      valid: false,
-      edited: false,
-      touched: false,
-      ref: useRef(null)
-    },
-    expirationYear: {
-      type: "input",
-      config: {
-        name: "expirationYear",
+        name: "expiration",
         type: "text",
-        placeholder: "Year"
+        placeholder: ""
       },
       validation: {
         requered: true,
-        regex: /^((\d{2})|(\d{4}))$/,
-        min: { long: minLong, short: minShort },
-        max: { long: maxLong, short: maxShort }
+        regex: /^((\d{4})|(\d{6}))$/
+        // min: { long: minLong, short: minShort },
+        // max: { long: maxLong, short: maxShort }
       },
-      value: `${new Date().getFullYear()}`.slice(-2),
+      value:
+        `0${new Date().getMonth() + 1}`.slice(-2) +
+        `${new Date().getFullYear()}`.slice(-2),
+      maskedValue:
+        `0${new Date().getMonth() + 1}`.slice(-2) +
+        "/" +
+        `${new Date().getFullYear()}`.slice(-2),
       errors: false,
       valid: false,
       edited: false,
@@ -98,7 +86,6 @@ const Form = ({
       ref: useRef(null)
     },
     cardCvc: {
-      type: "input",
       config: {
         name: "cardCvc",
         type: "text"
@@ -136,16 +123,12 @@ const Form = ({
     let value = e.target.value;
     let errors;
 
-    if (name === "expirationYear") {
-      value = value.replace(/\D+/g, "").substring(0, 4);
-    }
-
     if (name === "cardCvc") {
       value = value.replace(/\D+/g, "").substring(0, 4);
     }
 
-    if (name === "cardNumber") {
-      onCardNumberFieldChange(name, value);
+    if (name === "cardNumber" || name === "expiration") {
+      onMaskedFieldChange(name, value);
     } else {
       errors = validate(value, name, fields[name].validation);
 
@@ -162,27 +145,41 @@ const Form = ({
     }
   };
 
-  const onCardNumberFieldChange = (name, value) => {
+  const onMaskedFieldChange = (name, value) => {
+    const unmaskValue = {
+      cardNumber: value => value.replace(/\D+/g, "").substring(0, 16),
+      expiration: value => value.replace(/\D+/g, "").substring(0, 6)
+    };
+
+    const maskValue = {
+      cardNumber: value =>
+        value
+          .replace(/(\d{4})/g, "$1 ")
+          .replace(/(\d{4}) (\d{4}) (\d{4}) (\d{4}) /, "$1 $2 $3 $4"),
+      expiration: value => value.replace(/^(\d{2})(\d{1,4})?$/, "$1/$2")
+    };
+
     let maskedValue;
-    let unmaskedValue = value.replace(/\D+/g, "").substring(0, 16);
-    const oldMaskedValue = fields.cardNumber.maskedValue;
-    //check if used is editing the card number
+    const oldMaskedValue = fields[name].maskedValue;
+    let unmaskedValue = unmaskValue[name](value);
+
+    //check if user is editing the number
     if (oldMaskedValue.slice(0, -1) === value) {
       maskedValue = value;
     } else {
-      maskedValue = unmaskedValue
-        .replace(/(\d{4})/g, "$1 ")
-        .replace(/(\d{4}) (\d{4}) (\d{4}) (\d{4}) /, "$1 $2 $3 $4");
+      maskedValue = maskValue[name](unmaskedValue);
     }
 
-    setCardType(checkType(unmaskedValue));
+    if (name === "cardNumber") {
+      setCardType(checkType(unmaskedValue));
+    }
 
     let errors = validate(unmaskedValue, name, fields[name].validation);
 
     setFields(state => ({
       ...state,
-      cardNumber: {
-        ...state.cardNumber,
+      [name]: {
+        ...state[name],
         value: unmaskedValue,
         maskedValue,
         errors: errors,
@@ -190,8 +187,6 @@ const Form = ({
         edited: true
       }
     }));
-
-    console.log(errors, fields.cardNumber);
   };
 
   const onFocus = name => {
@@ -238,18 +233,12 @@ const Form = ({
 
   for (const key in fields) {
     const value = fields[key].maskedValue || fields[key].value;
-    const focusName =
-      fields[key].config.name === "expirationMonth" ||
-      fields[key].config.name === "expirationYear"
-        ? "expiration"
-        : fields[key].config.name;
     inputs[key] = (
       <Input
-        type={fields[key].type}
         config={fields[key].config}
         value={value}
         onChange={onFieldChange.bind(this, fields[key].config.name)}
-        onFocus={onFocus.bind(this, focusName)}
+        onFocus={onFocus.bind(this, fields[key].config.name)}
         onBlur={onBlur.bind(this, fields[key].config.name)}
         errors={fields[key].errors}
         touched={fields[key].touched}
@@ -263,8 +252,7 @@ const Form = ({
       <Card
         cardNumber={fields.cardNumber.maskedValue}
         cardHolder={fields.cardHolder.value}
-        expirationMonth={fields.expirationMonth.value}
-        expirationYear={fields.expirationYear.value}
+        expiration={fields.expiration.maskedValue}
         cardCvc={fields.cardCvc.value}
         isFlipped={isFlipped}
         cardType={cardType}
@@ -283,13 +271,7 @@ const Form = ({
         <div className={classes.RowExpieryCvc}>
           <div className={classes.RowExpiery}>
             <label className={classes.Label}>Expiration Date</label>
-            <div className={classes.RowExpieryFields}>
-              <div className={classes.ExpieryMonth}>
-                {inputs.expirationMonth}
-              </div>
-
-              <div className={classes.ExpieryYear}>{inputs.expirationYear}</div>
-            </div>
+            <div className={classes.Expiery}>{inputs.expiration}</div>
           </div>
           <div className={classes.RowCvc}>
             <label className={classes.Label}>Cvc</label>

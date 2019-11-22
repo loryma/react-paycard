@@ -27,17 +27,7 @@
   margin-top: 2em;
 }
 
-.RowExpieryFields {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 15%;
-}
-
-.ExpieryMonth {
-  position: relative;
-}
-
-.ExpieryYear {
+.RowExpiery {
   position: relative;
 }
 
@@ -75,12 +65,12 @@
   }
 
   .RowExpiery {
-    width: 60%;
+    width: 40%;
     margin-right: auto;
   }
 
   .RowCvc {
-    width: 26%;
+    width: 40%;
     position: relative;
     margin-top: 0;
   }
