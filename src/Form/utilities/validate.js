@@ -25,27 +25,33 @@ const validate = (value, name, validation) => {
           errors.push("Incorrect number");
         }
         break;
-      case "min":
-        if (value.length === 2) {
-          if (Number(value) < validation[key].short) {
+      case "minDate":
+        if (value.length === 4) {
+          let expiration = getShortExpirationDate(value, validation, key);
+
+          if (expiration < validation[key]) {
             errors.push(`Expiery date can't be in the past`);
           }
-        } else if (value.length === 4) {
-          if (Number(value) < validation[key].long) {
+        } else if (value.length === 6) {
+          let expiration = getLongExpirationDate(value);
+          if (expiration < validation[key]) {
             errors.push(`Expiery date can't be in the past`);
           }
         }
 
         break;
 
-      case "max":
-        if (value.length === 2) {
-          if (Number(value) > validation[key].short) {
-            errors.push(`Expiery date is incorrect`);
+      case "maxDate":
+        if (value.length === 4) {
+          let expiration = getShortExpirationDate(value, validation, key);
+
+          if (expiration > validation[key]) {
+            errors.push(`Expiery date is too far in the future`);
           }
-        } else if (value.length === 4) {
-          if (Number(value) > validation[key].long) {
-            errors.push(`Expiery date is incorrect`);
+        } else if (value.length === 6) {
+          let expiration = getLongExpirationDate(value);
+          if (expiration > validation[key]) {
+            errors.push(`Expiery date is too far in the future`);
           }
         }
 
@@ -69,7 +75,7 @@ const validate = (value, name, validation) => {
   return errors.length > 0 ? errors : false;
 };
 
-const checkLuhn = value => {
+function checkLuhn(value) {
   let sum = 0;
   let shouldDouble = false;
 
@@ -84,6 +90,20 @@ const checkLuhn = value => {
     shouldDouble = !shouldDouble;
   }
   return sum % 10 === 0;
-};
+}
+
+function getShortExpirationDate(value, validation, key) {
+  let month = Number(value.slice(0, 2) - 1);
+  let year = Number(
+    `${validation[key].getFullYear()}`.slice(0, 2) + value.slice(2)
+  );
+  return new Date(year, month);
+}
+
+function getLongExpirationDate(value, validation, key) {
+  let month = Number(value.slice(0, 2) - 1);
+  let year = Number(value.slice(2));
+  return new Date(year, month);
+}
 
 export default validate;

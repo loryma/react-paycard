@@ -7,7 +7,8 @@
   padding-top: 55%;
   border-radius: 1em;
   color: white;
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+  text-shadow: 7px 6px 10px rgba(14, 42, 90, 0.8);
+  user-select: none;
 }
 
 .Wrapper {
@@ -35,11 +36,23 @@
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-areas: "chip logo" "number number" "name expiration";
   z-index: 2;
-  transition: transform 1s;
+  transition: transform 1s cubic-bezier(0.71, 0.03, 0.56, 0.85);
   transform-style: preserve-3d;
   transform: perspective(1000px) rotateY(0deg);
   backface-visibility: hidden;
   box-shadow: 0 20px 60px 0 rgba(14, 42, 90, 0.55);
+}
+
+.Forward::after {
+  z-index: -1;
+  border-radius: 1em;
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(6, 2, 29, 0.45);
 }
 
 .Backward {
@@ -52,7 +65,7 @@
   width: 100%;
   justify-content: center;
   padding: 1em;
-  transition: transform 1s;
+  transition: transform 1s cubic-bezier(0.71, 0.03, 0.56, 0.85);
   transform: perspective(1000px) rotateY(180deg);
   background-size: cover;
   background-repeat: no-repeat;
@@ -69,6 +82,18 @@
   top: 1em;
   left: 0;
   background-color: rgba(0, 0, 0, 0.9);
+}
+
+.Backward::after {
+  z-index: -1;
+  border-radius: 1em;
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(6, 2, 29, 0.45);
 }
 
 .Wrapper.IsFlipped .Forward {
@@ -116,7 +141,7 @@
 }
 
 .CardHolder {
-  padding: 0.2em;
+  padding: 0.5em;
   width: 100%;
   grid-area: name;
   justify-self: start;
@@ -132,7 +157,7 @@
 }
 
 .Expiration {
-  padding: 0.2em;
+  padding: 0.5em;
   width: 100%;
   grid-area: expiration;
   justify-self: center;

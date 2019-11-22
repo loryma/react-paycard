@@ -7,9 +7,9 @@
 .Form {
   background-color: white;
   border-radius: 0.5em;
-  padding: 25% 15px 15px;
+  padding: 32% 15px 15px;
   width: 100%;
-  margin-top: -25%;
+  margin-top: -27.5%;
   box-shadow: 2px 2px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -19,12 +19,12 @@
 
 .Row {
   width: 100%;
-  margin-top: 2em;
+  margin-top: 1.6em;
   position: relative;
 }
 
 .RowExpieryCvc {
-  margin-top: 2em;
+  margin-top: 1.6em;
 }
 
 .RowExpiery {
@@ -33,12 +33,12 @@
 
 .RowCvc {
   position: relative;
-  margin-top: 2em;
+  margin-top: 1.6em;
 }
 
 .Label {
   display: inline-block;
-  font-size: 14px;
+  font-size: 12px;
   margin-bottom: 5px;
 }
 
@@ -47,7 +47,7 @@
   appearance: none;
   border-radius: 5px;
   border: 1px solid #2364d2;
-  margin-top: 2em;
+  margin-top: 1.5em;
   font-size: 22px;
   width: 100%;
   height: 55px;
@@ -55,13 +55,22 @@
   color: white;
   background-color: #2364d2;
   user-select: none;
+  box-shadow: 3px 10px 20px 0px rgba(35, 100, 210, 0.3);
 }
 
 @media (min-width: 768px) {
   .Form {
     background-color: white;
     border-radius: 0.5em;
-    padding: 25% 35px 35px;
+    padding: 30% 35px 35px;
+    margin-top: -25%;
+  }
+
+  .Row {
+    margin-top: 2em;
+  }
+  .RowExpieryCvc {
+    margin-top: 2em;
   }
 
   .RowExpiery {
@@ -77,5 +86,8 @@
 
   .RowExpieryCvc {
     display: flex;
+  }
+  .Submit {
+    margin-top: 2.5em;
   }
 }

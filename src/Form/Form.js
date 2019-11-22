@@ -68,9 +68,9 @@ const Form = ({
       },
       validation: {
         requered: true,
-        regex: /^((\d{4})|(\d{6}))$/
-        // min: { long: minLong, short: minShort },
-        // max: { long: maxLong, short: maxShort }
+        regex: /^([0-1][0-12])(\d{2}|\d{4})$/,
+        minDate: new Date(new Date().getFullYear(), new Date().getMonth()),
+        maxDate: new Date(new Date().getFullYear() + 10, new Date().getMonth())
       },
       value:
         `0${new Date().getMonth() + 1}`.slice(-2) +

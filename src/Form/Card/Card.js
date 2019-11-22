@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import classes from "./Card.module.css";
 import chip from "./chip.png";
 import Logo from "../Logo/Logo";
@@ -7,7 +7,28 @@ import CardHolder from "../CardHolder/CardHolder";
 import Month from "../Month/Month";
 import Year from "../Year/Year";
 import Focus from "../Focus/Focus";
-import img from "../../card.jpg";
+import img from "./card_5.jpg";
+
+// import img from [...new Array(5)].map((_, i) => `./card_${i + 1}.jpg`)[
+//   Math.round(Math.random() * 5)
+// ];
+
+const useForceUpdate = () => {
+  let [value, setValue] = useState(0);
+
+  return () => setValue(++value);
+};
+
+function debounce(fn, ms) {
+  let timer;
+  return _ => {
+    clearTimeout(timer);
+    timer = setTimeout(_ => {
+      timer = null;
+      fn.apply(this, arguments);
+    }, ms);
+  };
+}
 
 const Card = ({
   cardNumber,
@@ -19,6 +40,7 @@ const Card = ({
   focusedField,
   focusField
 }) => {
+  const forceUpdate = useForceUpdate();
   const WrapperClasses = [
     classes.Wrapper,
     isFlipped ? classes.IsFlipped : ""
@@ -28,22 +50,37 @@ const Card = ({
     cardHolder: useRef(null),
     expiration: useRef(null)
   };
-  let focusStyle = {
-    width: focusedField
-      ? refs[focusedField].current.offsetWidth + "px"
-      : "100%",
-    height: focusedField
-      ? refs[focusedField].current.offsetHeight + "px"
-      : "100%",
-    left: focusedField ? refs[focusedField].current.offsetLeft + "px" : "0",
-    top: focusedField ? refs[focusedField].current.offsetTop + "px" : "0"
+
+  const calcFocusPos = focusStyle => {
+    return {
+      width: focusedField
+        ? refs[focusedField].current.offsetWidth + "px"
+        : "100%",
+      height: focusedField
+        ? refs[focusedField].current.offsetHeight + "px"
+        : "100%",
+      left: focusedField ? refs[focusedField].current.offsetLeft + "px" : "0",
+      top: focusedField ? refs[focusedField].current.offsetTop + "px" : "0"
+    };
   };
+  let focusStyle = calcFocusPos(focusField);
 
   const onClick = name => {
     focusField(name);
   };
 
-  const expirationMonth = expiration.slice(0, 2);
+  useEffect(() => {
+    const debouncedHandleResize = debounce(function() {
+      forceUpdate();
+    }, 300);
+    window.addEventListener("resize", debouncedHandleResize);
+
+    return () => {
+      window.removeEventListener("resize", debouncedHandleResize);
+    };
+  }, []);
+
+  const expirationMonth = expiration.slice(0, 2) || "";
   const expirationYear = expiration.split("/")[1] || "";
 
   const style = { backgroundImage: `url(${img})` };

@@ -11,6 +11,11 @@
   border: 1px solid #ced6e0;
 }
 
+.Input:focus {
+  outline: none;
+  box-shadow: 1px 4px 15px #ced6e056;
+}
+
 .Input::placeholder {
   color: black;
   font-size: 18px;
@@ -25,7 +30,8 @@
 }
 
 .Invalid:focus {
-  outline: rgba(255, 0, 0, 0.5) 1px auto;
+  outline: none;
+  box-shadow: 1px 2px 8px rgba(255, 0, 0, 0.15);
 }
 
 .Error {
