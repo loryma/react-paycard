@@ -51,7 +51,8 @@ const Form = ({
         placeholder: ""
       },
       validation: {
-        requered: true
+        requered: true,
+        maxWidth: 25
       },
       value: "",
       errors: false,

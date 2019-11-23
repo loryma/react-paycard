@@ -32,7 +32,7 @@
   width: 100%;
   justify-content: space-between;
   display: grid;
-  grid-template-columns: 3.5fr 1fr;
+  grid-template-columns: 2.8fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-areas: "chip logo" "number number" "name expiration";
   z-index: 2;
@@ -125,7 +125,7 @@
 }
 
 .Chip {
-  width: 20%;
+  width: 25%;
   height: auto;
   grid-area: chip;
   justify-self: start;
@@ -147,6 +147,7 @@
   justify-self: start;
   align-self: end;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .CardHolderName {
@@ -164,6 +165,7 @@
   align-self: end;
   cursor: pointer;
   text-align: center;
+  overflow: hidden;
 }
 
 .ExpirationWrapper {
@@ -176,6 +178,7 @@
   display: inline-block;
   width: 50%;
   text-align: right;
+  white-space: nowrap;
 }
 
 .ExpirationYear {
@@ -213,5 +216,9 @@
 
   .Backward::before {
     height: 3em;
+  }
+
+  .Chip {
+    width: 20%;
   }
 }

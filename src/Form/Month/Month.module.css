@@ -5,3 +5,8 @@
 .Content {
   transition: 0.2s linear;
 }
+
+.Char {
+  transition: 0.2s linear;
+  display: inline-block;
+}
