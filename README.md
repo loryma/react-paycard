@@ -6,12 +6,10 @@ Deployed on Netlify at https://react-paycard.netlify.com/
 
 **Paycard signature**
 
-```
-    <Form
+```<Form
         onSubmit={data => data}
         style={maxWidth: "570px"}
-    />
-```
+    />```
 
 **Paycard component** expects:
 
@@ -31,7 +29,7 @@ Deployed on Netlify at https://react-paycard.netlify.com/
 - built with React hooks
 - state is preserved with _useState_ hook
 - _useRef_ is used to get reference to DOM nodes to focus form fields on click and to get card DOM nodes position, width, height
-- custom _useForceUpdate_ is used to rerender interactive card on window resize to update focus `<div>` dimentions
+- custom _useForceUpdate_ is used to rerender interactive card on window resize to update focus `<div>` element dimentions that highlights currently focused field
 - _useEffect_ hook is used to subsctibe to window resize events
-- [react-transition-group](https://github.com/reactjs/react-transition-group) package is used to animate characters on interactive card on used input
+- [react-transition-group](https://github.com/reactjs/react-transition-group) package is used to animate characters on interactive card on user input
 - CSS 3D is used for card rotation
