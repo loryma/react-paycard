@@ -6,11 +6,6 @@ import validate from "./utilities/validate";
 import creditCards from "./utilities/creditCards";
 import classes from "./Form.module.css";
 
-const minShort = Number(`${new Date().getFullYear()}`.slice(-2));
-const minLong = new Date().getFullYear();
-const maxShort = Number(`${new Date().getFullYear() + 10}`.slice(-2));
-const maxLong = new Date().getFullYear() + 10;
-
 const Form = ({
   style = {
     fontFamily: "Verdana",
