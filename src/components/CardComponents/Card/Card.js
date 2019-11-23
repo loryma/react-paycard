@@ -72,7 +72,7 @@ const Card = ({
   useEffect(() => {
     const debouncedHandleResize = debounce(function() {
       forceUpdate();
-    }, 300);
+    }, 100);
     window.addEventListener("resize", debouncedHandleResize);
 
     return () => {

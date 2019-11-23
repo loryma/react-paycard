@@ -2,7 +2,7 @@ import React from "react";
 import CardNumber from "../CardNumber/CardNumber";
 import SwitchTransition from "react-transition-group/SwitchTransition";
 import CSSTransition from "react-transition-group/CSSTransition";
-import "../Transitions.css";
+import "../../Transitions.css";
 
 const CardNumbers = ({ numbers }) => {
   const arr = [...new Array(19)].map((_, i) =>

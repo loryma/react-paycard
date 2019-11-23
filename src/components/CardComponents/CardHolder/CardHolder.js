@@ -3,7 +3,7 @@ import CSSTransition from "react-transition-group/CSSTransition";
 import TransitionGroup from "react-transition-group/TransitionGroup";
 import SwitchTransition from "react-transition-group/SwitchTransition";
 import classes from "./CardHolder.module.css";
-import "../Transitions.css";
+import "../../Transitions.css";
 
 const CardHolder = ({ name }) => {
   const nameArray = name.split("");

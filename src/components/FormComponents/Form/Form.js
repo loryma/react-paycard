@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import Card from "./Card/Card";
-import Input from "./Input/Input";
-import checkType from "./utilities/checkCardType";
-import validate from "./utilities/validate";
-import creditCards from "./utilities/creditCards";
+import Card from "../../CardComponents/Card/Card";
+import Input from "../Input/Input";
+import checkType from "../../utilities/checkCardType";
+import validate from "../../utilities/validate";
+import creditCards from "../../utilities/creditCards";
 import classes from "./Form.module.css";
 
 const Form = ({
@@ -213,7 +213,14 @@ const Form = ({
     if (formIsValid) {
       let formData = {};
       for (let key in fields) {
-        formData[key] = fields[key].value;
+        if(key === "expiration") {
+          formData.month = fields.value.slice(0,2);
+          formData.year = fields.value.slice(2);
+        }
+        else {
+          formData[key] = fields[key].value;
+        }
+        
       }
       onSubmit(formData);
     } else {

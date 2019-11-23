@@ -6,7 +6,7 @@ import visa from "./visa.png";
 import mastercard from "./mastercard.png";
 import discover from "./discover.png";
 import americanExpress from "./americanexpress.png";
-import "../Transitions.css";
+import "../../Transitions.css";
 
 const Logo = ({ cardType }) => {
   let cardLogo = visa;
