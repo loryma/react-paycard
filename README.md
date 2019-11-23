@@ -6,10 +6,12 @@ Deployed on Netlify at https://react-paycard.netlify.com/
 
 **Paycard signature**
 
-```<Form
-        onSubmit={data => data}
-        style={maxWidth: "570px"}
-    />```
+```
+<Form
+    onSubmit={data => data}
+    style={maxWidth: "570px"}
+/>
+```
 
 **Paycard component** expects:
 
