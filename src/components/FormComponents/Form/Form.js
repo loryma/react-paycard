@@ -64,7 +64,7 @@ const Form = ({
       },
       validation: {
         requered: true,
-        regex: /^([0-1][0-12])(\d{2}|\d{4})$/,
+        regex: /^([0-1][0-9])(\d{2}|\d{4})$/,
         minDate: new Date(new Date().getFullYear(), new Date().getMonth()),
         maxDate: new Date(new Date().getFullYear() + 10, new Date().getMonth())
       },
@@ -213,14 +213,12 @@ const Form = ({
     if (formIsValid) {
       let formData = {};
       for (let key in fields) {
-        if(key === "expiration") {
-          formData.month = fields.value.slice(0,2);
+        if (key === "expiration") {
+          formData.month = fields.value.slice(0, 2);
           formData.year = fields.value.slice(2);
-        }
-        else {
+        } else {
           formData[key] = fields[key].value;
         }
-        
       }
       onSubmit(formData);
     } else {
@@ -277,7 +275,7 @@ const Form = ({
             <div className={classes.Expiery}>{inputs.expiration}</div>
           </div>
           <div className={classes.RowCvc}>
-            <label className={classes.Label}>Cvc</label>
+            <label className={classes.Label}>CVC</label>
             {inputs.cardCvc}
           </div>
         </div>
