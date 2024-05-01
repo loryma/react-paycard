@@ -78,7 +78,7 @@ const Card = ({
     return () => {
       window.removeEventListener("resize", debouncedHandleResize);
     };
-  }, []);
+  }, [forceUpdate]);
 
   const expirationMonth = expiration.slice(0, 2) || "";
   const expirationYear = expiration.split("/")[1] || "";
