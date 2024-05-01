@@ -2,7 +2,7 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/bf7b5af7-d84e-474c-897a-f7a5056d696b/deploy-status)](https://app.netlify.com/sites/react-paycard/deploys)
 
-Deployed on Netlify at https://react-paycard.netlify.com/
+Deployed on Netlify at https://master--react-paycard.netlify.app
 
 **Paycard signature**
 
